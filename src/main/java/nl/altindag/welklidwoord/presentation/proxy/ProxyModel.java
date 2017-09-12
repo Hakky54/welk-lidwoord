@@ -1,4 +1,4 @@
-package nl.altindag.welklidwoord.proxy;
+package nl.altindag.welklidwoord.presentation.proxy;
 
 public class ProxyModel {
 

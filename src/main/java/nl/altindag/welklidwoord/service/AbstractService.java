@@ -1,8 +1,8 @@
 package nl.altindag.welklidwoord.service;
 
 import javafx.beans.property.SimpleBooleanProperty;
-import nl.altindag.welklidwoord.WLWException;
-import nl.altindag.welklidwoord.proxy.ProxyModel;
+import nl.altindag.welklidwoord.exception.WLWException;
+import nl.altindag.welklidwoord.presentation.proxy.ProxyModel;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
 import org.apache.http.auth.AuthScope;

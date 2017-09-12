@@ -6,8 +6,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import nl.altindag.welklidwoord.WLWException;
-import nl.altindag.welklidwoord.proxy.ProxyPresenter;
+import nl.altindag.welklidwoord.exception.WLWException;
+import nl.altindag.welklidwoord.presentation.proxy.ProxyPresenter;
 import nl.altindag.welklidwoord.service.LidWoordService;
 import org.apache.http.impl.client.HttpClientBuilder;
 

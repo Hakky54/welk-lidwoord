@@ -1,6 +1,6 @@
 package nl.altindag.welklidwoord.service;
 
-import nl.altindag.welklidwoord.WLWException;
+import nl.altindag.welklidwoord.exception.WLWException;
 import org.apache.http.HttpResponse;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;

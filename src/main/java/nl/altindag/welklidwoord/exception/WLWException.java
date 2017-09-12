@@ -1,4 +1,4 @@
-package nl.altindag.welklidwoord;
+package nl.altindag.welklidwoord.exception;
 
 public class WLWException extends Exception {
 
