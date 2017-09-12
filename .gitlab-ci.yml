@@ -8,6 +8,6 @@ build:
   script:
     - mvn clean install -B
     - mkdir .public
-  artifact:
+  artifacts:
     paths:
       - target/*.jar
