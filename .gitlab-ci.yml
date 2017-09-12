@@ -8,8 +8,6 @@ build:
   script:
     - mvn clean install -B
     - mkdir .public
-    - mv ./target/welk-lidwoord-1.0-SNAPSHOT.jar .public/welk-lidwoord-1.0-SNAPSHOT.jar
-    - mv .public public
-    artifact:
-      paths:
+  artifact:
+    paths:
       - target/*.jar
