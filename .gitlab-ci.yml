@@ -7,8 +7,8 @@ build:
     - mkdir .public
     - mv ./target/welk-lidwoord-1.0-SNAPSHOT.jar .public/welk-lidwoord-1.0-SNAPSHOT.jar
     - mv .public public
-      artifacts:
-        paths:
-        - public
-      only:
-      - master
+    artifacts:
+      paths:
+      - public
+    only:
+    - master
