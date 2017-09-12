@@ -1,10 +1,18 @@
 image: maven:3.3.9-jdk-8
 
+before_script:
+  - apt-get update
+  - apt-get install -y openjfx
+
 build:
   script:
-    - apt-get update
-    - apt-get install -y openjfx
     - mvn clean install -B
     - mkdir .public
     - mv ./target/welk-lidwoord-1.0-SNAPSHOT.jar .public/welk-lidwoord-1.0-SNAPSHOT.jar
     - mv .public public
+
+artifacts:
+    paths:
+    - public
+  only:
+  - master
