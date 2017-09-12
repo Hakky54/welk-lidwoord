@@ -6,7 +6,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import nl.altindag.welklidwoord.exception.WLWException;
+import nl.altindag.welklidwoord.exception.WLException;
 import nl.altindag.welklidwoord.presentation.proxy.ProxyPresenter;
 import nl.altindag.welklidwoord.service.LidWoordService;
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -78,7 +78,7 @@ public class SearchPresenter implements Initializable {
         Map<String, String> container = null;
         try {
             container = service.get(searchField.getText());
-        } catch (WLWException e) {
+        } catch (WLException e) {
             displayException(e.getMessage());
             return;
         } catch (UnknownHostException e) {

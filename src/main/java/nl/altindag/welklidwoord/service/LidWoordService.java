@@ -1,6 +1,6 @@
 package nl.altindag.welklidwoord.service;
 
-import nl.altindag.welklidwoord.exception.WLWException;
+import nl.altindag.welklidwoord.exception.WLException;
 import org.apache.http.HttpResponse;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -21,7 +21,7 @@ public class LidWoordService extends AbstractService<Map<String, String>> {
     public static final String DIE_OF_DAT = "die-of-dat";
     public static final String ONS_OF_ONZE = "ons-of-onze";
 
-    public Map<String, String> get(String zelfstandigNaamWoord) throws IOException, WLWException {
+    public Map<String, String> get(String zelfstandigNaamWoord) throws IOException, WLException {
         setRequest(createRequest(URL + zelfstandigNaamWoord));
         HttpResponse response = getResponse(getRequest());
 
@@ -30,9 +30,9 @@ public class LidWoordService extends AbstractService<Map<String, String>> {
         return getAllFields(parsedResponse);
     }
 
-    private Map<String, String> getAllFields(String result) throws WLWException {
+    private Map<String, String> getAllFields(String result) throws WLException {
         if (result.contains(NOT_FOUND)) {
-            throw new WLWException("Niet gevonden  :(");
+            throw new WLException("Niet gevonden  :(");
         }
 
         Document document = Jsoup.parse(result);
