@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>nl.altindag</groupId>
-    <artifactId>WelkLidWoord</artifactId>
+    <artifactId>welk-lidwoord</artifactId>
     <version>1.0-SNAPSHOT</version>
     <name>welk-lidwoord</name>
 
@@ -35,7 +35,7 @@
         <dependency>
             <groupId>com.airhacks</groupId>
             <artifactId>afterburner.fx</artifactId>
-            <version>1.6.0</version>
+            <version>1.7.0</version>
         </dependency>
     </dependencies>
 
