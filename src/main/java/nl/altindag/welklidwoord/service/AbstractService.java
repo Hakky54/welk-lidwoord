@@ -1,6 +1,5 @@
 package nl.altindag.welklidwoord.service;
 
-import javafx.beans.property.SimpleBooleanProperty;
 import nl.altindag.welklidwoord.exception.WLException;
 import nl.altindag.welklidwoord.presentation.proxy.ProxyModel;
 import org.apache.http.HttpHost;
@@ -23,18 +22,9 @@ public abstract class AbstractService<T> {
 
     private HttpClient client;
     private HttpGet request;
-    private SimpleBooleanProperty proxyDisabled = new SimpleBooleanProperty(true);
-
-    public SimpleBooleanProperty getProxyDisabledProperty() {
-        return proxyDisabled;
-    }
-
-    public SimpleBooleanProperty proxyDisabledProperty() {
-        return proxyDisabled;
-    }
 
     @PostConstruct
-    public void init() {
+    private void init() {
         client = HttpClientBuilder.create().build();
     }
 
@@ -44,6 +34,10 @@ public abstract class AbstractService<T> {
         HttpGet request = new HttpGet(url);
         request.addHeader("User-Agent", USER_AGENT);
         return request;
+    }
+
+    public void setDefaultHttpClient() {
+        init();
     }
 
     public void setProxy(ProxyModel proxyModel) {
@@ -74,10 +68,6 @@ public abstract class AbstractService<T> {
         this.client = client;
     }
 
-    public HttpClient getClient() {
-        return client;
-    }
-
     public void setRequest(HttpGet request) {
         this.request = request;
     }
@@ -85,4 +75,5 @@ public abstract class AbstractService<T> {
     public HttpGet getRequest() {
         return request;
     }
+
 }

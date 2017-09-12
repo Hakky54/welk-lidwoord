@@ -5,11 +5,13 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.scene.control.CheckMenuItem;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextField;
 import nl.altindag.welklidwoord.exception.WLException;
 import nl.altindag.welklidwoord.presentation.proxy.ProxyPresenter;
 import nl.altindag.welklidwoord.service.LidWoordService;
-import org.apache.http.impl.client.HttpClientBuilder;
 
 import javax.inject.Inject;
 import java.io.IOException;
@@ -35,7 +37,7 @@ public class SearchPresenter implements Initializable {
     @FXML
     private TextField searchField;
     @FXML
-    public CheckMenuItem proxyDisable;
+    public CheckMenuItem proxyCheckMenuItem;
     @FXML
     private MenuItem proxySettingsMenuItem;
     @FXML
@@ -61,16 +63,15 @@ public class SearchPresenter implements Initializable {
         aanwijzendLabel.textProperty().bind(aanwijzendVoornaamwoord);
 
         proxySettingsMenuItem.setOnAction(e -> proxyPresenter.show());
-        proxyDisable.selectedProperty().addListener((observable, oldValue, newValue) -> {
+        proxyCheckMenuItem.selectedProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue) {
-                service.setClient(HttpClientBuilder.create().build());
+                service.setDefaultHttpClient();
             } else {
                 proxyPresenter.getResult().ifPresent(service::setProxy);
-                service.getProxyDisabledProperty().set(true);
             }
         });
         closeMenuItem.setOnAction(e -> Platform.exit());
-        proxyDisable.disableProperty().bind(proxyPresenter.getFieldsAreEmptyBooleanBinding());
+        proxyCheckMenuItem.disableProperty().bind(proxyPresenter.getFieldsAreEmptyBooleanBinding());
     }
 
     @FXML

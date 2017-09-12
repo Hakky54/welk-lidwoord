@@ -25,6 +25,7 @@ public class ProxyPresenter {
     private PasswordField password;
     private TextField host;
     private TextField port;
+
     private Button loginButton;
     private ButtonType loginButtonType;
 
@@ -56,7 +57,7 @@ public class ProxyPresenter {
                     return null;
                 }
             }
-            return null;
+            return result.orElse(null);
         });
     }
 
