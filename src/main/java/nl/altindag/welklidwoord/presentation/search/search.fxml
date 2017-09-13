@@ -21,8 +21,8 @@
         </rowConstraints>
          <children>
             <Label fx:id="lidwoordLabel" text="de of het" GridPane.rowIndex="1" />
-            <Label fx:id="aanwijzendLabel" text="die of dat" GridPane.rowIndex="2" />
-            <Label fx:id="bezittelijkJouLabel" text="jou of jouw" GridPane.rowIndex="3" />
+             <Label fx:id="aanwijzendVerLabel" text="die of dat" GridPane.rowIndex="2"/>
+             <Label fx:id="aanwijzendDichtbijLabel" text="deze of dit" GridPane.rowIndex="3"/>
             <Label fx:id="bezittelijkOnsLabel" text="ons of onze" GridPane.rowIndex="4" />
             <Label fx:id="onbepaaldLabel" text="elk of elke" GridPane.rowIndex="5" />
             <TextField fx:id="searchField" onAction="#onEnter" GridPane.rowIndex="7" />

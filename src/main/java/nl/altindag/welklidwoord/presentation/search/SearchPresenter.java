@@ -9,25 +9,23 @@ import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
+import nl.altindag.welklidwoord.Field;
 import nl.altindag.welklidwoord.exception.WLException;
 import nl.altindag.welklidwoord.presentation.proxy.ProxyPresenter;
-import nl.altindag.welklidwoord.service.LidWoordService;
+import nl.altindag.welklidwoord.service.VanDaleService;
 
 import javax.inject.Inject;
-import java.io.IOException;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.Map;
 import java.util.ResourceBundle;
 
-import static nl.altindag.welklidwoord.service.LidWoordService.*;
-
 public class SearchPresenter implements Initializable {
 
     @FXML
-    private Label aanwijzendLabel;
+    private Label aanwijzendVerLabel;
     @FXML
-    private Label bezittelijkJouLabel;
+    private Label aanwijzendDichtbijLabel;
     @FXML
     private Label bezittelijkOnsLabel;
     @FXML
@@ -44,23 +42,23 @@ public class SearchPresenter implements Initializable {
     private MenuItem closeMenuItem;
 
     @Inject
-    private LidWoordService service;
+    private VanDaleService service;
     @Inject
     private ProxyPresenter proxyPresenter;
 
     private SimpleStringProperty lidwoord = new SimpleStringProperty("de of het");
-    private SimpleStringProperty aanwijzendVoornaamwoord = new SimpleStringProperty("die of dat");
+    private SimpleStringProperty aanwijzendVoornaamwoordVer = new SimpleStringProperty("die of dat");
+    private SimpleStringProperty aanwijzendVoornaamwoordDichtbij = new SimpleStringProperty("deze of dit");
     private SimpleStringProperty bezittelijkVoornaamwoordOns = new SimpleStringProperty("ons of onze");
     private SimpleStringProperty onbepaaldVoornaamwoord = new SimpleStringProperty("elk of elke");
-    private SimpleStringProperty bezittelijkVoornaamwoordJou = new SimpleStringProperty("jou of jouw");
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         lidwoordLabel.textProperty().bind(lidwoord);
         onbepaaldLabel.textProperty().bind(onbepaaldVoornaamwoord);
-        bezittelijkJouLabel.textProperty().bind(bezittelijkVoornaamwoordJou);
+        aanwijzendDichtbijLabel.textProperty().bind(aanwijzendVoornaamwoordDichtbij);
         bezittelijkOnsLabel.textProperty().bind(bezittelijkVoornaamwoordOns);
-        aanwijzendLabel.textProperty().bind(aanwijzendVoornaamwoord);
+        aanwijzendVerLabel.textProperty().bind(aanwijzendVoornaamwoordVer);
 
         proxySettingsMenuItem.setOnAction(e -> proxyPresenter.show());
         proxyCheckMenuItem.selectedProperty().addListener((observable, oldValue, newValue) -> {
@@ -85,21 +83,21 @@ public class SearchPresenter implements Initializable {
         } catch (UnknownHostException e) {
             displayException("Onjuiste proxy");
             return;
-        } catch (IOException e) {
+        } catch (Exception e) {
             displayException("Onbekende fout");
         }
 
-        lidwoord.set(container.get(DE_OF_HET));
-        aanwijzendVoornaamwoord.set(container.get(DIE_OF_DAT).substring(container.get(DIE_OF_DAT).indexOf(":") + 2));
-        bezittelijkVoornaamwoordOns.set(container.get(ONS_OF_ONZE).substring(container.get(ONS_OF_ONZE).indexOf(":") + 2));
-        bezittelijkVoornaamwoordJou.set(container.get(JOU_OF_JOUW));
-        onbepaaldVoornaamwoord.set(container.get(ELK_OF_ELKE).substring(container.get(ELK_OF_ELKE).indexOf(":") + 2));
+        lidwoord.set(container.get(Field.DE_OF_HET));
+        aanwijzendVoornaamwoordVer.set(container.get(Field.DIE_OF_DAT));
+        aanwijzendVoornaamwoordDichtbij.set(container.get(Field.DEZE_OF_DIT));
+        bezittelijkVoornaamwoordOns.set(container.get(Field.ONS_OF_ONZE));
+        onbepaaldVoornaamwoord.set(container.get(Field.ELK_OF_ELKE));
     }
 
     private void displayException(String exception) {
         lidwoord.set(null);
-        aanwijzendVoornaamwoord.set(null);
-        bezittelijkVoornaamwoordJou.set(exception);
+        aanwijzendVoornaamwoordVer.set(null);
+        aanwijzendVoornaamwoordDichtbij.set(exception);
         bezittelijkVoornaamwoordOns.set(null);
         onbepaaldVoornaamwoord.set(null);
     }

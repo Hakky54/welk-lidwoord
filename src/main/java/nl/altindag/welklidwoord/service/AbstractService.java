@@ -1,6 +1,5 @@
 package nl.altindag.welklidwoord.service;
 
-import nl.altindag.welklidwoord.exception.WLException;
 import nl.altindag.welklidwoord.presentation.proxy.ProxyModel;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
@@ -55,7 +54,7 @@ public abstract class AbstractService<T> {
         return client.execute(request);
     }
 
-    String parseResponse(HttpResponse response) throws IOException, WLException {
+    String parseResponse(HttpResponse response) throws IOException {
         String parsedResponse = EntityUtils.toString(response.getEntity());
 
         // Release after finishing reading HTML
