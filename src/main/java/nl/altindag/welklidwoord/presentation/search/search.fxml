@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 <BorderPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="nl.altindag.welklidwoord.presentation.search.SearchPresenter">
    <center>
       <GridPane hgap="5.0" vgap="5.0">
@@ -33,16 +37,5 @@
       </GridPane>
    </center>
    <top>
-      <MenuBar BorderPane.alignment="CENTER">
-        <menus>
-          <Menu mnemonicParsing="false" text="Optie">
-            <items>
-              <MenuItem fx:id="proxySettingsMenuItem" mnemonicParsing="false" text="Proxy instellingen" />
-                <CheckMenuItem fx:id="proxyCheckMenuItem" mnemonicParsing="false" text="Proxy uitzetten"/>
-              <MenuItem fx:id="closeMenuItem" mnemonicParsing="false" text="Sluiten" />
-            </items>
-          </Menu>
-        </menus>
-      </MenuBar>
    </top>
 </BorderPane>

@@ -1,17 +1,20 @@
 package nl.altindag.welklidwoord.service;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.utils.URIBuilder;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Element;
+import static nl.altindag.welklidwoord.model.Field.DEZE_OF_DIT;
+import static nl.altindag.welklidwoord.model.Field.DE_OF_HET;
+import static nl.altindag.welklidwoord.model.Field.DIE_OF_DAT;
+import static nl.altindag.welklidwoord.model.Field.ELK_OF_ELKE;
+import static nl.altindag.welklidwoord.model.Field.ONS_OF_ONZE;
 
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
-
-import static nl.altindag.welklidwoord.Field.*;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.utils.URIBuilder;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Element;
 
 public class VanDaleService extends AbstractService<Map<String, String>> {
 
