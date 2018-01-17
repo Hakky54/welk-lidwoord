@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.CheckMenuItem?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -37,5 +41,16 @@
       </GridPane>
    </center>
    <top>
+       <MenuBar BorderPane.alignment="CENTER">
+           <menus>
+               <Menu mnemonicParsing="false" text="Optie">
+                   <items>
+                       <MenuItem fx:id="proxySettingsMenuItem" mnemonicParsing="false" text="Proxy instellingen"/>
+                       <CheckMenuItem fx:id="proxyCheckMenuItem" mnemonicParsing="false" text="Proxy uitzetten"/>
+                       <MenuItem fx:id="closeMenuItem" mnemonicParsing="false" text="Sluiten"/>
+                   </items>
+               </Menu>
+           </menus>
+       </MenuBar>
    </top>
 </BorderPane>

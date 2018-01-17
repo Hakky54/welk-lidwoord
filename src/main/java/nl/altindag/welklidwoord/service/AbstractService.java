@@ -1,10 +1,12 @@
 package nl.altindag.welklidwoord.service;
 
+import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 import static org.apache.http.HttpHeaders.USER_AGENT;
 
 import java.io.IOException;
+import java.util.function.Supplier;
 import javax.annotation.PostConstruct;
-import nl.altindag.welklidwoord.model.ProxyModel;
+import nl.altindag.welklidwoord.model.Proxy;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
 import org.apache.http.auth.AuthScope;
@@ -20,10 +22,12 @@ public abstract class AbstractService<T> {
 
     private HttpClient client;
     private HttpGet request;
+    public static final Supplier<HttpClient> HTTP_CLIENT_SUPPLIER = () -> HttpClientBuilder.create()
+                                                                                           .build();
 
     @PostConstruct
     private void init() {
-        client = HttpClientBuilder.create().build();
+        setClient(HTTP_CLIENT_SUPPLIER);
     }
 
     public abstract T get(String s) throws Exception;
@@ -34,15 +38,17 @@ public abstract class AbstractService<T> {
         return request;
     }
 
-    public void setProxy(ProxyModel proxyModel) {
+    public void setClient(Proxy proxy) {
         CredentialsProvider provider = new BasicCredentialsProvider();
-        UsernamePasswordCredentials credentials = new UsernamePasswordCredentials(proxyModel.getUsername(), proxyModel.getPassword());
-        provider.setCredentials(AuthScope.ANY, credentials);
+        if (isNotEmpty(proxy.getUsername()) || isNotEmpty(proxy.getPassword())) {
+            UsernamePasswordCredentials credentials = new UsernamePasswordCredentials(proxy.getUsername(), proxy.getPassword());
+            provider.setCredentials(AuthScope.ANY, credentials);
+        }
 
         client = HttpClientBuilder.create()
-                .setProxy(new HttpHost(proxyModel.getHost(), proxyModel.getPort()))
-                .setDefaultCredentialsProvider(provider)
-                .build();
+                                  .setProxy(new HttpHost(proxy.getHost(), proxy.getPort()))
+                                  .setDefaultCredentialsProvider(provider)
+                                  .build();
     }
 
     HttpResponse getResponse(HttpGet request) throws IOException {
@@ -64,6 +70,14 @@ public abstract class AbstractService<T> {
 
     public HttpGet getRequest() {
         return request;
+    }
+
+    public void setClient(HttpClient client) {
+        this.client = client;
+    }
+
+    public void setClient(Supplier<HttpClient> httpClientSupplier) {
+        this.client = httpClientSupplier.get();
     }
 
 }

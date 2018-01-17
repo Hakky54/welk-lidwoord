@@ -10,7 +10,9 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
+import nl.altindag.welklidwoord.exception.WLException;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.utils.URIBuilder;
 import org.jsoup.Jsoup;
@@ -31,7 +33,8 @@ public class VanDaleService extends AbstractService<Map<String, String>> {
         HttpResponse response = getResponse(getRequest());
 
         String parsedResponse = parseResponse(response);
-        String lidwoord = getLidwoord(parsedResponse);
+        String lidwoord = getLidwoord(parsedResponse)
+                .orElseThrow(() -> new WLException("Woord niet gevonden :("));
 
         return getAllFields(lidwoord, word);
     }
@@ -47,12 +50,11 @@ public class VanDaleService extends AbstractService<Map<String, String>> {
                 .toString();
     }
 
-    public String getLidwoord(String result) {
+    public Optional<String> getLidwoord(String result) {
         return Jsoup.parse(result).getElementsByAttributeValueContaining("class", "fq").stream()
-                .map(Element::text)
-                .filter(s -> s.matches("de|het"))
-                .findFirst()
-                .get();
+                    .map(Element::text)
+                    .filter(s -> s.matches("de|het"))
+                    .findFirst();
     }
 
     private Map<String, String> getAllFields(String lidwoord, String word) {

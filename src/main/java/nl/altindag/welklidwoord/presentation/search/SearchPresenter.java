@@ -1,18 +1,24 @@
 package nl.altindag.welklidwoord.presentation.search;
 
+import static nl.altindag.welklidwoord.service.AbstractService.HTTP_CLIENT_SUPPLIER;
+
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.Map;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javax.inject.Inject;
 import nl.altindag.welklidwoord.exception.WLException;
 import nl.altindag.welklidwoord.model.Field;
+import nl.altindag.welklidwoord.presentation.proxy.ProxyPresenter;
 import nl.altindag.welklidwoord.service.VanDaleService;
 
 public class SearchPresenter implements Initializable {
@@ -29,9 +35,17 @@ public class SearchPresenter implements Initializable {
     private Label lidwoordLabel;
     @FXML
     private TextField searchField;
+    @FXML
+    public CheckMenuItem proxyCheckMenuItem;
+    @FXML
+    private MenuItem proxySettingsMenuItem;
+    @FXML
+    private MenuItem closeMenuItem;
 
     @Inject
     private VanDaleService service;
+    @Inject
+    private ProxyPresenter proxyPresenter;
 
     private SimpleStringProperty lidwoord = new SimpleStringProperty("de of het");
     private SimpleStringProperty aanwijzendVoornaamwoordVer = new SimpleStringProperty("die of dat");
@@ -46,6 +60,19 @@ public class SearchPresenter implements Initializable {
         aanwijzendDichtbijLabel.textProperty().bind(aanwijzendVoornaamwoordDichtbij);
         bezittelijkOnsLabel.textProperty().bind(bezittelijkVoornaamwoordOns);
         aanwijzendVerLabel.textProperty().bind(aanwijzendVoornaamwoordVer);
+
+        proxySettingsMenuItem.setOnAction(e -> proxyPresenter.show());
+        proxyCheckMenuItem.selectedProperty()
+                          .addListener((observable, oldValue, newValue) -> {
+                              if (newValue) {
+                                  service.setClient(HTTP_CLIENT_SUPPLIER);
+                              } else {
+                                  service.setClient(proxyPresenter.getProxy());
+                              }
+                          });
+        closeMenuItem.setOnAction(e -> Platform.exit());
+        proxyCheckMenuItem.disableProperty()
+                          .bind(proxyPresenter.getFieldsAreEmptyBooleanBinding());
     }
 
     @FXML
@@ -61,6 +88,7 @@ public class SearchPresenter implements Initializable {
             return;
         } catch (Exception e) {
             displayException("Onbekende fout (0|0)");
+            return;
         }
 
         lidwoord.set(container.get(Field.DE_OF_HET));

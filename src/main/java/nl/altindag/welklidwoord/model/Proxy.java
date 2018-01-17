@@ -1,6 +1,6 @@
 package nl.altindag.welklidwoord.model;
 
-public class ProxyModel {
+public class Proxy {
 
     private String username;
     private String password;
@@ -8,11 +8,11 @@ public class ProxyModel {
     private String host;
     private int port;
 
-    public ProxyModel() {
+    public Proxy() {
 
     }
 
-    public ProxyModel(String username, String password, String host, int port) {
+    public Proxy(String username, String password, String host, int port) {
         this.username = username;
         this.password = password;
         this.host = host;
@@ -35,22 +35,22 @@ public class ProxyModel {
         return port;
     }
 
-    public ProxyModel withUsername(String username) {
+    public Proxy withUsername(String username) {
         this.username = username;
         return this;
     }
 
-    public ProxyModel withPassword(String password) {
+    public Proxy withPassword(String password) {
         this.password = password;
         return this;
     }
 
-    public ProxyModel withHost(String host) {
+    public Proxy withHost(String host) {
         this.host = host;
         return this;
     }
 
-    public ProxyModel withPort(int port) {
+    public Proxy withPort(int port) {
         this.port = port;
         return this;
     }
