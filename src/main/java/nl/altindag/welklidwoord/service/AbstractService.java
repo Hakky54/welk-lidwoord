@@ -1,6 +1,6 @@
 package nl.altindag.welklidwoord.service;
 
-import static org.apache.commons.lang3.StringUtils.isNotEmpty;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.apache.http.HttpHeaders.USER_AGENT;
 
 import java.io.IOException;
@@ -22,8 +22,7 @@ public abstract class AbstractService<T> {
 
     private HttpClient client;
     private HttpGet request;
-    public static final Supplier<HttpClient> HTTP_CLIENT_SUPPLIER = () -> HttpClientBuilder.create()
-                                                                                           .build();
+    public static final Supplier<HttpClient> HTTP_CLIENT_SUPPLIER = () -> HttpClientBuilder.create().build();
 
     @PostConstruct
     private void init() {
@@ -39,16 +38,17 @@ public abstract class AbstractService<T> {
     }
 
     public void setClient(Proxy proxy) {
-        CredentialsProvider provider = new BasicCredentialsProvider();
-        if (isNotEmpty(proxy.getUsername()) || isNotEmpty(proxy.getPassword())) {
+        HttpClientBuilder httpClientBuilder = HttpClientBuilder.create()
+                .setProxy(new HttpHost(proxy.getHost(), proxy.getPort()));
+
+        if (isNotBlank(proxy.getUsername()) || isNotBlank(proxy.getPassword())) {
+            CredentialsProvider provider = new BasicCredentialsProvider();
             UsernamePasswordCredentials credentials = new UsernamePasswordCredentials(proxy.getUsername(), proxy.getPassword());
             provider.setCredentials(AuthScope.ANY, credentials);
+            httpClientBuilder.setDefaultCredentialsProvider(provider);
         }
 
-        client = HttpClientBuilder.create()
-                                  .setProxy(new HttpHost(proxy.getHost(), proxy.getPort()))
-                                  .setDefaultCredentialsProvider(provider)
-                                  .build();
+        client = httpClientBuilder.build();
     }
 
     HttpResponse getResponse(HttpGet request) throws IOException {
