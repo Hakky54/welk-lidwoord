@@ -78,7 +78,7 @@ public class SearchPresenter implements Initializable {
 
     @FXML
     public void onEnter(ActionEvent event) {
-        Map<String, String> container = null;
+        Map<String, String> container;
         try {
             container = service.get(searchField.getText());
         } catch (WLException e) {
