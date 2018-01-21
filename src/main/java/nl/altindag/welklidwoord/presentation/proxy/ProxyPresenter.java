@@ -1,26 +1,21 @@
 package nl.altindag.welklidwoord.presentation.proxy;
 
+import javafx.beans.binding.BooleanBinding;
+import javafx.geometry.Insets;
+import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
+import javafx.util.converter.IntegerStringConverter;
+import nl.altindag.welklidwoord.model.Proxy;
+import nl.altindag.welklidwoord.service.VanDaleService;
+
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
+import java.util.Optional;
+import java.util.function.Function;
+
 import static javafx.scene.control.ButtonBar.ButtonData.OK_DONE;
 import static javafx.scene.control.ButtonType.CANCEL;
 import static nl.altindag.welklidwoord.service.AbstractService.HTTP_CLIENT_SUPPLIER;
-
-import java.util.Optional;
-import java.util.function.Function;
-import javafx.beans.binding.BooleanBinding;
-import javafx.geometry.Insets;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
-import javafx.scene.control.TextFormatter;
-import javafx.scene.layout.GridPane;
-import javafx.util.converter.IntegerStringConverter;
-import javax.annotation.PostConstruct;
-import javax.inject.Inject;
-import nl.altindag.welklidwoord.model.Proxy;
-import nl.altindag.welklidwoord.service.VanDaleService;
 
 public class ProxyPresenter {
 
@@ -44,14 +39,12 @@ public class ProxyPresenter {
         initializeScreen();
 
         fieldsAreEmptyBooleanBinding = host.textProperty()
-                                           .isEmpty()
-                                           .or(port.textProperty()
-                                                   .isEmpty());
+                .isEmpty()
+                .or(port.textProperty().isEmpty());
 
-        loginButton.disableProperty()
-                   .bind(fieldsAreEmptyBooleanBinding);
+        loginButton.disableProperty().bind(fieldsAreEmptyBooleanBinding);
 
-        dialog.setOnCloseRequest(e -> service.setClient(HTTP_CLIENT_SUPPLIER.get()));
+        dialog.setOnCloseRequest(e -> service.setClient(HTTP_CLIENT_SUPPLIER));
 
         dialog.setResultConverter(this::getProxyDetails);
     }
@@ -89,12 +82,10 @@ public class ProxyPresenter {
         grid.add(host, 1, 1);
         grid.add(port, 2, 1);
 
-        loginButton = (Button) dialog.getDialogPane()
-                                     .lookupButton(loginButtonType);
+        loginButton = (Button) dialog.getDialogPane().lookupButton(loginButtonType);
         loginButton.setDisable(true);
 
-        dialog.getDialogPane()
-              .setContent(grid);
+        dialog.getDialogPane().setContent(grid);
     }
 
     public void show() {
@@ -111,10 +102,10 @@ public class ProxyPresenter {
         if (dialogButton == loginButtonType) {
             if (!fieldsAreEmptyBooleanBinding.get()) {
                 proxy = Optional.of(new Proxy()
-                                            .withUsername(username.getText())
-                                            .withPassword(password.getText())
-                                            .withHost(host.getText())
-                                            .withPort(Integer.valueOf(port.getText())));
+                        .withUsername(username.getText())
+                        .withPassword(password.getText())
+                        .withHost(host.getText())
+                        .withPort(Integer.valueOf(port.getText())));
             }
         }
         return proxy;

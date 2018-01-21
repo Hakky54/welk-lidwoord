@@ -1,11 +1,5 @@
 package nl.altindag.welklidwoord.service;
 
-import static org.apache.commons.lang3.StringUtils.isNotBlank;
-import static org.apache.http.HttpHeaders.USER_AGENT;
-
-import java.io.IOException;
-import java.util.function.Supplier;
-import javax.annotation.PostConstruct;
 import nl.altindag.welklidwoord.model.Proxy;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
@@ -18,10 +12,16 @@ import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 
+import javax.annotation.PostConstruct;
+import java.io.IOException;
+import java.util.function.Supplier;
+
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
+import static org.apache.http.HttpHeaders.USER_AGENT;
+
 public abstract class AbstractService<T> {
 
     private HttpClient client;
-    private HttpGet request;
     public static final Supplier<HttpClient> HTTP_CLIENT_SUPPLIER = () -> HttpClientBuilder.create().build();
 
     @PostConstruct
@@ -35,6 +35,14 @@ public abstract class AbstractService<T> {
         HttpGet request = new HttpGet(url);
         request.addHeader("User-Agent", USER_AGENT);
         return request;
+    }
+
+    public void setClient(HttpClient client) {
+        this.client = client;
+    }
+
+    public void setClient(Supplier<HttpClient> httpClientSupplier) {
+        this.client = httpClientSupplier.get();
     }
 
     public void setClient(Proxy proxy) {
@@ -56,28 +64,7 @@ public abstract class AbstractService<T> {
     }
 
     String parseResponse(HttpResponse response) throws IOException {
-        String parsedResponse = EntityUtils.toString(response.getEntity());
-
-        // Release after finishing reading HTML
-        request.releaseConnection();
-
-        return parsedResponse;
-    }
-
-    public void setRequest(HttpGet request) {
-        this.request = request;
-    }
-
-    public HttpGet getRequest() {
-        return request;
-    }
-
-    public void setClient(HttpClient client) {
-        this.client = client;
-    }
-
-    public void setClient(Supplier<HttpClient> httpClientSupplier) {
-        this.client = httpClientSupplier.get();
+        return EntityUtils.toString(response.getEntity());
     }
 
 }

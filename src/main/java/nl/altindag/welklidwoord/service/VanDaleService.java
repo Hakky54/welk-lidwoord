@@ -1,10 +1,11 @@
 package nl.altindag.welklidwoord.service;
 
-import static nl.altindag.welklidwoord.model.Field.DEZE_OF_DIT;
-import static nl.altindag.welklidwoord.model.Field.DE_OF_HET;
-import static nl.altindag.welklidwoord.model.Field.DIE_OF_DAT;
-import static nl.altindag.welklidwoord.model.Field.ELK_OF_ELKE;
-import static nl.altindag.welklidwoord.model.Field.ONS_OF_ONZE;
+import nl.altindag.welklidwoord.exception.WLException;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.utils.URIBuilder;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Element;
 
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
@@ -12,11 +13,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
-import nl.altindag.welklidwoord.exception.WLException;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.utils.URIBuilder;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Element;
+
+import static nl.altindag.welklidwoord.model.Field.*;
 
 public class VanDaleService extends AbstractService<Map<String, String>> {
 
@@ -27,12 +25,26 @@ public class VanDaleService extends AbstractService<Map<String, String>> {
     private static final String QUERYPARAM_LANGUAGE_KEY = "lang";
     private static final String QUERYPARAM_LANGUAGE_VALUE = "nn";
 
+    private static final String DE = "de";
+    private static final String DEZE = "deze";
+    private static final String DIT = "dit";
+    private static final String DIE = "die";
+    private static final String DAT = "dat";
+    private static final String ONZE = "onze";
+    private static final String ONS = "ons";
+    private static final String ELKE = "elke";
+    private static final String ELK = "elk";
+
     @Override
     public Map<String, String> get(String word) throws Exception {
-        setRequest(createRequest(buildURL(word)));
-        HttpResponse response = getResponse(getRequest());
+        String url = buildURL(word);
+        HttpGet request = createRequest(url);
 
+        HttpResponse response = getResponse(request);
         String parsedResponse = parseResponse(response);
+
+        request.releaseConnection();
+
         String lidwoord = getLidwoord(parsedResponse)
                 .orElseThrow(() -> new WLException("Woord niet gevonden :("));
 
@@ -70,19 +82,19 @@ public class VanDaleService extends AbstractService<Map<String, String>> {
     }
 
     private String getBetrekkelijkeVoornaamwoordDichtbij(String lidwoord) {
-        return lidwoord.equals("de") ? "deze" : "dit";
+        return lidwoord.equals(DE) ? DEZE : DIT;
     }
 
     private String getBetrekkelijkeVoornaamwoordVer(String lidwoord) {
-        return lidwoord.equals("de") ? "die" : "dat";
+        return lidwoord.equals(DE) ? DIE : DAT;
     }
 
     private String getBetrekkelijkeVoornaamwoordOnsOfOnze(String lidwoord) {
-        return lidwoord.equals("de") ? "onze" : "ons";
+        return lidwoord.equals(DE) ? ONZE : ONS;
     }
 
     private String getOnbepaaldVoornaamwoord(String lidwoord) {
-        return lidwoord.equals("de") ? "elke" : "elk";
+        return lidwoord.equals(DE) ? ELKE : ELK;
     }
 
 
