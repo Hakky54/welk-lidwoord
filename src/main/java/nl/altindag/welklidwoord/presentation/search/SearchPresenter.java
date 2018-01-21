@@ -1,11 +1,5 @@
 package nl.altindag.welklidwoord.presentation.search;
 
-import static nl.altindag.welklidwoord.service.AbstractService.HTTP_CLIENT_SUPPLIER;
-
-import java.net.URL;
-import java.net.UnknownHostException;
-import java.util.Map;
-import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
@@ -15,11 +9,18 @@ import javafx.scene.control.CheckMenuItem;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
-import javax.inject.Inject;
 import nl.altindag.welklidwoord.exception.WLException;
-import nl.altindag.welklidwoord.model.Field;
 import nl.altindag.welklidwoord.presentation.proxy.ProxyPresenter;
 import nl.altindag.welklidwoord.service.VanDaleService;
+
+import javax.inject.Inject;
+import java.net.URL;
+import java.net.UnknownHostException;
+import java.util.Map;
+import java.util.ResourceBundle;
+
+import static nl.altindag.welklidwoord.model.Field.*;
+import static nl.altindag.welklidwoord.service.AbstractService.HTTP_CLIENT_SUPPLIER;
 
 public class SearchPresenter implements Initializable {
 
@@ -47,11 +48,11 @@ public class SearchPresenter implements Initializable {
     @Inject
     private ProxyPresenter proxyPresenter;
 
-    private SimpleStringProperty lidwoord = new SimpleStringProperty("de of het");
-    private SimpleStringProperty aanwijzendVoornaamwoordVer = new SimpleStringProperty("die of dat");
-    private SimpleStringProperty aanwijzendVoornaamwoordDichtbij = new SimpleStringProperty("deze of dit");
-    private SimpleStringProperty bezittelijkVoornaamwoordOns = new SimpleStringProperty("ons of onze");
-    private SimpleStringProperty onbepaaldVoornaamwoord = new SimpleStringProperty("elk of elke");
+    private SimpleStringProperty lidwoord = new SimpleStringProperty(DE_OF_HET);
+    private SimpleStringProperty aanwijzendVoornaamwoordVer = new SimpleStringProperty(DIE_OF_DAT);
+    private SimpleStringProperty aanwijzendVoornaamwoordDichtbij = new SimpleStringProperty(DEZE_OF_DIT);
+    private SimpleStringProperty bezittelijkVoornaamwoordOns = new SimpleStringProperty(ONS_OF_ONZE);
+    private SimpleStringProperty onbepaaldVoornaamwoord = new SimpleStringProperty(ELK_OF_ELKE);
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -91,11 +92,11 @@ public class SearchPresenter implements Initializable {
             return;
         }
 
-        lidwoord.set(container.get(Field.DE_OF_HET));
-        aanwijzendVoornaamwoordVer.set(container.get(Field.DIE_OF_DAT));
-        aanwijzendVoornaamwoordDichtbij.set(container.get(Field.DEZE_OF_DIT));
-        bezittelijkVoornaamwoordOns.set(container.get(Field.ONS_OF_ONZE));
-        onbepaaldVoornaamwoord.set(container.get(Field.ELK_OF_ELKE));
+        lidwoord.set(container.get(DE_OF_HET));
+        aanwijzendVoornaamwoordVer.set(container.get(DIE_OF_DAT));
+        aanwijzendVoornaamwoordDichtbij.set(container.get(DEZE_OF_DIT));
+        bezittelijkVoornaamwoordOns.set(container.get(ONS_OF_ONZE));
+        onbepaaldVoornaamwoord.set(container.get(ELK_OF_ELKE));
     }
 
     private void displayException(String exception) {
