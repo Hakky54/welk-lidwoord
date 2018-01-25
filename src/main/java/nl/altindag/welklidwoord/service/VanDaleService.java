@@ -12,7 +12,7 @@ import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.function.Function;
+import java.util.function.UnaryOperator;
 
 import static nl.altindag.welklidwoord.model.Field.*;
 
@@ -70,7 +70,7 @@ public class VanDaleService extends AbstractService<Map<String, String>> {
     }
 
     private Map<String, String> getAllFields(String lidwoord, String word) {
-        Function<String, String> append = aWord -> aWord + " " + word;
+        UnaryOperator<String> append = aWord -> aWord + " " + word;
         HashMap<String, String> container = new HashMap<>();
 
         container.put(DE_OF_HET, append.apply(lidwoord));
