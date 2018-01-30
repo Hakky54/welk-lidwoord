@@ -1,5 +1,11 @@
 package nl.altindag.welklidwoord.service;
 
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
+import static org.apache.http.HttpHeaders.USER_AGENT;
+
+import java.io.IOException;
+import java.util.function.Supplier;
+import javax.annotation.PostConstruct;
 import nl.altindag.welklidwoord.model.Proxy;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
@@ -11,13 +17,6 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
-
-import javax.annotation.PostConstruct;
-import java.io.IOException;
-import java.util.function.Supplier;
-
-import static org.apache.commons.lang3.StringUtils.isNotBlank;
-import static org.apache.http.HttpHeaders.USER_AGENT;
 
 public abstract class AbstractService<T> {
 
@@ -42,7 +41,7 @@ public abstract class AbstractService<T> {
     }
 
     public void setClient(Supplier<HttpClient> httpClientSupplier) {
-        this.client = httpClientSupplier.get();
+        setClient(httpClientSupplier.get());
     }
 
     public void setClient(Proxy proxy) {
