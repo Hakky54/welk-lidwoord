@@ -1,11 +1,10 @@
 package nl.altindag.welklidwoord.service;
 
-import nl.altindag.welklidwoord.exception.WLException;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.utils.URIBuilder;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Element;
+import static nl.altindag.welklidwoord.model.Field.DEZE_OF_DIT;
+import static nl.altindag.welklidwoord.model.Field.DE_OF_HET;
+import static nl.altindag.welklidwoord.model.Field.DIE_OF_DAT;
+import static nl.altindag.welklidwoord.model.Field.ELK_OF_ELKE;
+import static nl.altindag.welklidwoord.model.Field.ONS_OF_ONZE;
 
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
@@ -13,8 +12,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.UnaryOperator;
-
-import static nl.altindag.welklidwoord.model.Field.*;
+import nl.altindag.welklidwoord.exception.WLException;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.utils.URIBuilder;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Element;
 
 public class VanDaleService extends AbstractService<Map<String, String>> {
 
@@ -65,7 +68,7 @@ public class VanDaleService extends AbstractService<Map<String, String>> {
     public Optional<String> getLidwoord(String result) {
         return Jsoup.parse(result).getElementsByAttributeValueContaining("class", "fq").stream()
                     .map(Element::text)
-                    .filter(s -> s.matches("de|het"))
+                    .filter(element -> element.matches("de|het"))
                     .findFirst();
     }
 
