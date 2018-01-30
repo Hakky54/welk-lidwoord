@@ -6,12 +6,12 @@ import static nl.altindag.welklidwoord.model.Field.DIE_OF_DAT;
 import static nl.altindag.welklidwoord.model.Field.ELK_OF_ELKE;
 import static nl.altindag.welklidwoord.model.Field.ONS_OF_ONZE;
 
-import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.UnaryOperator;
+import javafx.util.Pair;
 import nl.altindag.welklidwoord.exception.WLException;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -38,6 +38,9 @@ public class VanDaleService extends AbstractService<Map<String, String>> {
     private static final String ELKE = "elke";
     private static final String ELK = "elk";
 
+    private static final String LIDWOORD = "de|het";
+    private static final Pair<String, String> LIDWOORD_ELEMENT_ATTRIBUTE = new Pair<>("class", "fq");
+
     @Override
     public Map<String, String> get(String word) throws Exception {
         String url = buildURL(word);
@@ -54,7 +57,7 @@ public class VanDaleService extends AbstractService<Map<String, String>> {
         return getAllFields(lidwoord, word);
     }
 
-    private String buildURL(String word) throws URISyntaxException, MalformedURLException {
+    private String buildURL(String word) throws URISyntaxException {
         return new URIBuilder()
                 .setScheme(SCHEME)
                 .setHost(HOST)
@@ -65,14 +68,15 @@ public class VanDaleService extends AbstractService<Map<String, String>> {
                 .toString();
     }
 
-    public Optional<String> getLidwoord(String result) {
-        return Jsoup.parse(result).getElementsByAttributeValueContaining("class", "fq").stream()
+    private Optional<String> getLidwoord(String result) {
+        return Jsoup.parse(result).getElementsByAttributeValueContaining(LIDWOORD_ELEMENT_ATTRIBUTE.getKey(), LIDWOORD_ELEMENT_ATTRIBUTE.getValue())
+                    .stream()
                     .map(Element::text)
-                    .filter(element -> element.matches("de|het"))
+                    .filter(element -> element.matches(LIDWOORD))
                     .findFirst();
     }
 
-    private Map<String, String> getAllFields(String lidwoord, String word) {
+    private Map<String, String> getAllFields(String lidwoord, final String word) {
         UnaryOperator<String> append = aWord -> aWord + " " + word;
         HashMap<String, String> container = new HashMap<>();
 
