@@ -5,10 +5,8 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.CheckMenuItem;
-import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.Alert.AlertType;
 import nl.altindag.welklidwoord.exception.WLException;
 import nl.altindag.welklidwoord.presentation.proxy.ProxyPresenter;
 import nl.altindag.welklidwoord.service.VanDaleService;
@@ -105,5 +103,14 @@ public class SearchPresenter implements Initializable {
         aanwijzendVoornaamwoordDichtbij.set(exception);
         bezittelijkVoornaamwoordOns.set(null);
         onbepaaldVoornaamwoord.set(null);
+    }
+
+    @FXML
+    public void about(ActionEvent actionEvent) {
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Over Welk Lidwoord");
+        alert.setHeaderText("Welk Lidwoord app versie 1");
+        alert.setContentText("Deze applicatie is gemaakt door Hakan Altindag");
+        alert.show();
     }
 }
