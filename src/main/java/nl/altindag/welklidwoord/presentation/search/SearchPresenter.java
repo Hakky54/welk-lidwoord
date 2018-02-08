@@ -51,6 +51,7 @@ public class SearchPresenter implements Initializable {
     private SimpleStringProperty aanwijzendVoornaamwoordDichtbij = new SimpleStringProperty(DEZE_OF_DIT);
     private SimpleStringProperty bezittelijkVoornaamwoordOns = new SimpleStringProperty(ONS_OF_ONZE);
     private SimpleStringProperty onbepaaldVoornaamwoord = new SimpleStringProperty(ELK_OF_ELKE);
+    private Alert aboutScreen;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -107,10 +108,16 @@ public class SearchPresenter implements Initializable {
 
     @FXML
     public void about(ActionEvent actionEvent) {
-        Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle("Over Welk Lidwoord");
-        alert.setHeaderText("Welk Lidwoord app versie 1");
-        alert.setContentText("Deze applicatie is gemaakt door Hakan Altindag");
-        alert.show();
+        getAboutScreen().show();
+    }
+
+    private Alert getAboutScreen() {
+        if (aboutScreen == null) {
+            aboutScreen = new Alert(AlertType.INFORMATION);
+            aboutScreen.setTitle("Over Welk Lidwoord");
+            aboutScreen.setHeaderText("Welk Lidwoord app versie 1");
+            aboutScreen.setContentText("Deze applicatie is gemaakt door Hakan Altindag");
+        }
+        return aboutScreen;
     }
 }
