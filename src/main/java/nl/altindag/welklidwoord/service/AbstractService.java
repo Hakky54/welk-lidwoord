@@ -1,11 +1,5 @@
 package nl.altindag.welklidwoord.service;
 
-import static org.apache.commons.lang3.StringUtils.isNotBlank;
-import static org.apache.http.HttpHeaders.USER_AGENT;
-
-import java.io.IOException;
-import java.util.function.Supplier;
-import javax.annotation.PostConstruct;
 import nl.altindag.welklidwoord.model.Proxy;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
@@ -18,10 +12,20 @@ import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 
+import javax.annotation.PostConstruct;
+import java.io.IOException;
+import java.util.concurrent.Future;
+import java.util.function.Supplier;
+
+import static nl.altindag.welklidwoord.App.executor;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
+import static org.apache.http.HttpHeaders.USER_AGENT;
+
 public abstract class AbstractService<T> {
 
     private HttpClient client;
     public static final Supplier<HttpClient> HTTP_CLIENT_SUPPLIER = () -> HttpClientBuilder.create().build();
+
 
     @PostConstruct
     private void init() {
@@ -58,8 +62,8 @@ public abstract class AbstractService<T> {
         client = httpClientBuilder.build();
     }
 
-    HttpResponse getResponse(HttpGet request) throws IOException {
-        return client.execute(request);
+    Future<HttpResponse> getResponse(HttpGet request) throws IOException {
+        return executor.submit(() -> client.execute(request));
     }
 
     String parseResponse(HttpResponse response) throws IOException {

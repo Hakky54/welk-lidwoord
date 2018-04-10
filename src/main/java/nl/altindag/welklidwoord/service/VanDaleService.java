@@ -1,16 +1,5 @@
 package nl.altindag.welklidwoord.service;
 
-import static nl.altindag.welklidwoord.model.Field.DEZE_OF_DIT;
-import static nl.altindag.welklidwoord.model.Field.DE_OF_HET;
-import static nl.altindag.welklidwoord.model.Field.DIE_OF_DAT;
-import static nl.altindag.welklidwoord.model.Field.ELK_OF_ELKE;
-import static nl.altindag.welklidwoord.model.Field.ONS_OF_ONZE;
-
-import java.net.URISyntaxException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.function.UnaryOperator;
 import javafx.util.Pair;
 import nl.altindag.welklidwoord.exception.WLException;
 import org.apache.http.HttpResponse;
@@ -18,6 +7,19 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.utils.URIBuilder;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
+
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+import java.util.function.UnaryOperator;
+
+import static nl.altindag.welklidwoord.model.Field.*;
 
 public class VanDaleService extends AbstractService<Map<String, String>> {
 
@@ -42,12 +44,12 @@ public class VanDaleService extends AbstractService<Map<String, String>> {
     private static final Pair<String, String> LIDWOORD_ELEMENT_ATTRIBUTE = new Pair<>("class", "fq");
 
     @Override
-    public Map<String, String> get(String word) throws Exception {
+    public Map<String, String> get(String word) throws URISyntaxException, IOException, InterruptedException, ExecutionException, TimeoutException, WLException {
         String url = buildURL(word);
         HttpGet request = createRequest(url);
 
-        HttpResponse response = getResponse(request);
-        String parsedResponse = parseResponse(response);
+        Future<HttpResponse> response = getResponse(request);
+        String parsedResponse = parseResponse(response.get(1500, TimeUnit.MILLISECONDS));
 
         request.releaseConnection();
 
