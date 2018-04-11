@@ -1,5 +1,9 @@
 package nl.altindag.welklidwoord.presentation.search;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeoutException;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
@@ -86,7 +90,7 @@ public class SearchPresenter implements Initializable {
         } catch (UnknownHostException e) {
             displayException("Onjuiste proxy -.-'");
             return;
-        } catch (Exception e) {
+        } catch (IOException | URISyntaxException | ExecutionException | TimeoutException | InterruptedException e) {
             displayException("Onbekende fout (0|0)");
             return;
         }
