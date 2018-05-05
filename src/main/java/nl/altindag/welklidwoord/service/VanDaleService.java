@@ -25,10 +25,7 @@ public class VanDaleService extends AbstractService<Map<String, String>> {
 
     private static final String SCHEME = "http";
     private static final String HOST = "www.vandale.nl";
-    private static final String PATH = "/opzoeken";
-    private static final String QUERYPARAM_PATTERN_KEY = "pattern";
-    private static final String QUERYPARAM_LANGUAGE_KEY = "lang";
-    private static final String QUERYPARAM_LANGUAGE_VALUE = "nn";
+    private static final String PATH = "/gratis-woordenboek/nederlands/betekenis/";
 
     private static final String DE = "de";
     private static final String DEZE = "deze";
@@ -63,9 +60,7 @@ public class VanDaleService extends AbstractService<Map<String, String>> {
         return new URIBuilder()
                 .setScheme(SCHEME)
                 .setHost(HOST)
-                .setPath(PATH)
-                .setParameter(QUERYPARAM_PATTERN_KEY, word)
-                .setParameter(QUERYPARAM_LANGUAGE_KEY, QUERYPARAM_LANGUAGE_VALUE)
+                .setPath(PATH + word)
                 .build()
                 .toString();
     }

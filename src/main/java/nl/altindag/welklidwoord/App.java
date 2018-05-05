@@ -18,7 +18,7 @@ public class App extends Application {
     public static final ExecutorService executor = Executors.newFixedThreadPool(10);
 
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) {
         SearchView searchView = new SearchView();
 
         Scene scene = new Scene(searchView.getView());
