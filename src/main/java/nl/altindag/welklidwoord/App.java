@@ -1,5 +1,6 @@
 package nl.altindag.welklidwoord;
 
+import com.guigarage.flatterfx.FlatterFX;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
@@ -25,9 +26,12 @@ public class App extends Application {
         stage.setTitle(TITLE);
         scene.getStylesheets().add(CSS);
         stage.setScene(scene);
+        stage.setWidth(800);
+        stage.setHeight(600);
         stage.setResizable(false);
         stage.setOnCloseRequest(App::shutDown);
         stage.show();
+        FlatterFX.style();
     }
 
     public static void main(String[] args) {

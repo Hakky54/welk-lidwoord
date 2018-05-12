@@ -1,9 +1,5 @@
 package nl.altindag.welklidwoord.presentation.search;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeoutException;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
@@ -16,11 +12,16 @@ import nl.altindag.welklidwoord.presentation.proxy.ProxyPresenter;
 import nl.altindag.welklidwoord.service.VanDaleService;
 
 import javax.inject.Inject;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.UnknownHostException;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeoutException;
 
+import static javafx.geometry.Pos.CENTER;
 import static nl.altindag.welklidwoord.model.Field.*;
 import static nl.altindag.welklidwoord.service.AbstractService.HTTP_CLIENT_SUPPLIER;
 
@@ -77,6 +78,7 @@ public class SearchPresenter implements Initializable {
         closeMenuItem.setOnAction(e -> Platform.exit());
         proxyCheckMenuItem.disableProperty()
                           .bind(proxyPresenter.getFieldsAreEmptyBooleanBinding());
+        searchField.setAlignment(CENTER);
     }
 
     @FXML
@@ -119,8 +121,8 @@ public class SearchPresenter implements Initializable {
         if (aboutScreen == null) {
             aboutScreen = new Alert(AlertType.INFORMATION);
             aboutScreen.setTitle("Over Welk Lidwoord");
-            aboutScreen.setHeaderText("Welk Lidwoord app versie 1");
-            aboutScreen.setContentText("Deze applicatie is gemaakt door Hakan Altindag");
+            aboutScreen.setHeaderText("Over Welk Lidwoord");
+            aboutScreen.setContentText("App versie 1.0");
         }
         return aboutScreen;
     }

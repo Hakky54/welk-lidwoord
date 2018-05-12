@@ -3,7 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<BorderPane xmlns="http://javafx.com/javafx/9" xmlns:fx="http://javafx.com/fxml/1"
+<BorderPane xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="nl.altindag.welklidwoord.presentation.search.SearchPresenter">
    <center>
       <GridPane hgap="5.0" vgap="5.0">
@@ -18,7 +18,6 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
             <Label fx:id="lidwoordLabel" text="de of het" GridPane.rowIndex="1" />
@@ -26,7 +25,6 @@
              <Label fx:id="aanwijzendDichtbijLabel" text="deze of dit" GridPane.rowIndex="3"/>
             <Label fx:id="bezittelijkOnsLabel" text="ons of onze" GridPane.rowIndex="4" />
             <Label fx:id="onbepaaldLabel" text="elk of elke" GridPane.rowIndex="5" />
-            <TextField fx:id="searchField" onAction="#onEnter" GridPane.rowIndex="7" />
          </children>
          <padding>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -36,15 +34,22 @@
    <top>
        <MenuBar BorderPane.alignment="CENTER">
            <menus>
-               <Menu mnemonicParsing="false" text="Optie">
+               <Menu fx:id="options" mnemonicParsing="false" text="Optie">
                    <items>
                        <MenuItem fx:id="proxySettingsMenuItem" mnemonicParsing="false" text="Proxy instellingen"/>
                        <CheckMenuItem fx:id="proxyCheckMenuItem" mnemonicParsing="false" text="Proxy uitzetten"/>
-                       <MenuItem fx:id="about" mnemonicParsing="false" text="Over Welk Lidwoord" onAction="#about"/>
+                       <MenuItem fx:id="about" mnemonicParsing="false" onAction="#about" text="Over Welk Lidwoord"/>
                        <MenuItem fx:id="closeMenuItem" mnemonicParsing="false" text="Sluiten"/>
                    </items>
                </Menu>
            </menus>
        </MenuBar>
    </top>
+    <bottom>
+        <TextField fx:id="searchField" onAction="#onEnter" BorderPane.alignment="CENTER">
+            <BorderPane.margin>
+                <Insets bottom="40.0" left="20.0" right="20.0" top="10.0"/>
+            </BorderPane.margin>
+        </TextField>
+    </bottom>
 </BorderPane>
