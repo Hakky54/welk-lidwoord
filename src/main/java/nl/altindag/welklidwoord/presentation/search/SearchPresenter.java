@@ -83,9 +83,13 @@ public class SearchPresenter implements Initializable {
 
     @FXML
     public void onEnter(ActionEvent event) {
-        Map<String, String> container;
         try {
-            container = service.get(searchField.getText());
+            Map<String, String> container = service.get(searchField.getText());
+            lidwoord.set(container.get(DE_OF_HET));
+            aanwijzendVoornaamwoordVer.set(container.get(DIE_OF_DAT));
+            aanwijzendVoornaamwoordDichtbij.set(container.get(DEZE_OF_DIT));
+            bezittelijkVoornaamwoordOns.set(container.get(ONS_OF_ONZE));
+            onbepaaldVoornaamwoord.set(container.get(ELK_OF_ELKE));
         } catch (WLException e) {
             displayException(e.getMessage());
             return;
@@ -96,12 +100,6 @@ public class SearchPresenter implements Initializable {
             displayException("Onbekende fout (0|0)");
             return;
         }
-
-        lidwoord.set(container.get(DE_OF_HET));
-        aanwijzendVoornaamwoordVer.set(container.get(DIE_OF_DAT));
-        aanwijzendVoornaamwoordDichtbij.set(container.get(DEZE_OF_DIT));
-        bezittelijkVoornaamwoordOns.set(container.get(ONS_OF_ONZE));
-        onbepaaldVoornaamwoord.set(container.get(ELK_OF_ELKE));
     }
 
     private void displayException(String exception) {
