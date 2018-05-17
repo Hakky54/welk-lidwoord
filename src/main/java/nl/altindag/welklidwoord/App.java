@@ -16,7 +16,7 @@ public class App extends Application {
     private static final String TITLE = "Welk lidwoord?";
     private static final String CSS = App.class.getResource("app.css").toExternalForm();
 
-    public static final ExecutorService executor = Executors.newFixedThreadPool(10);
+    public static final ExecutorService executor = Executors.newSingleThreadExecutor();
 
     @Override
     public void start(Stage stage) {
