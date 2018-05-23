@@ -1,23 +1,36 @@
 package nl.altindag.welklidwoord.presentation.proxy;
 
-import javafx.beans.binding.BooleanBinding;
-import javafx.geometry.Insets;
-import javafx.scene.control.*;
-import javafx.scene.layout.GridPane;
-import javafx.util.converter.IntegerStringConverter;
-import nl.altindag.welklidwoord.model.Proxy;
-import nl.altindag.welklidwoord.service.VanDaleService;
-
-import javax.annotation.PostConstruct;
-import javax.inject.Inject;
-import java.util.Optional;
-import java.util.function.Function;
-
 import static javafx.scene.control.ButtonBar.ButtonData.OK_DONE;
 import static javafx.scene.control.ButtonType.CANCEL;
 import static nl.altindag.welklidwoord.service.AbstractService.HTTP_CLIENT_SUPPLIER;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.util.Optional;
+import java.util.function.Function;
+import javafx.beans.binding.BooleanBinding;
+import javafx.geometry.Insets;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
+import javafx.scene.layout.GridPane;
+import javafx.util.converter.IntegerStringConverter;
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
+import nl.altindag.welklidwoord.model.Proxy;
+import nl.altindag.welklidwoord.service.VanDaleService;
+
 public class ProxyPresenter {
+
+    private static final String SAVE_FILE = "proxydetails.wlw";
+    private static final String HOME_DIRECTORY = System.getProperty("user.home");
 
     private Dialog<Optional<Proxy>> dialog;
     private Proxy proxy;
@@ -37,6 +50,16 @@ public class ProxyPresenter {
     @PostConstruct
     public void init() {
         initializeScreen();
+
+        loadProxyDetailsFromFile().ifPresent(proxy -> {
+            this.proxy = proxy;
+            service.setClient(proxy);
+
+            username.setText(proxy.getUsername());
+            password.setText(proxy.getPassword());
+            host.setText(proxy.getHost());
+            port.setText(String.valueOf(proxy.getPort()));
+        });
 
         fieldsAreEmptyBooleanBinding = host.textProperty()
                 .isEmpty()
@@ -94,6 +117,7 @@ public class ProxyPresenter {
               .ifPresent(proxy -> {
                   this.proxy = proxy;
                   service.setClient(proxy);
+                  saveProxyDetailsToFile(proxy);
               });
     }
 
@@ -116,6 +140,24 @@ public class ProxyPresenter {
     }
 
     public Proxy getProxy() {
+        return proxy;
+    }
+
+    private void saveProxyDetailsToFile(Proxy proxy) {
+        try (FileOutputStream file = new FileOutputStream(HOME_DIRECTORY + "/" + SAVE_FILE); ObjectOutputStream out = new ObjectOutputStream(file)) {
+            out.writeObject(proxy);
+        } catch (IOException e) {
+            // TODO handle exception
+        }
+    }
+
+    private Optional<Proxy> loadProxyDetailsFromFile() {
+        Optional<Proxy> proxy = Optional.empty();
+        try (FileInputStream file = new FileInputStream(System.getProperty("user.home") + "/" + SAVE_FILE); ObjectInputStream in = new ObjectInputStream(file)) {
+            proxy = Optional.of((Proxy) in.readObject());
+        } catch (IOException | ClassNotFoundException e) {
+            // TODO handle exception
+        }
         return proxy;
     }
 
