@@ -3,43 +3,63 @@ package nl.altindag.welklidwoord;
 import com.guigarage.flatterfx.FlatterFX;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
-import nl.altindag.welklidwoord.presentation.search.SearchView;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.Bean;
 
+import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+@SpringBootApplication
 public class App extends Application {
 
+    private ExecutorService executorService;
+    private ConfigurableApplicationContext applicationContext;
+    private Parent root;
     private static final String TITLE = "Welk lidwoord?";
-    private static final String CSS = App.class.getResource("app.css").toExternalForm();
 
-    public static final ExecutorService executor = Executors.newSingleThreadExecutor();
+    @Override
+    public void init() throws IOException {
+        applicationContext = SpringApplication.run(App.class);
+        executorService = applicationContext.getBean(ExecutorService.class);
+
+        FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("/mainscreen.fxml"));
+        fxmlLoader.setControllerFactory(applicationContext::getBean);
+        root = fxmlLoader.load();
+    }
 
     @Override
     public void start(Stage stage) {
-        SearchView searchView = new SearchView();
-
-        Scene scene = new Scene(searchView.getView());
+        Scene scene = new Scene(root);
         stage.setTitle(TITLE);
-        scene.getStylesheets().add(CSS);
         stage.setScene(scene);
         stage.setWidth(800);
         stage.setHeight(600);
         stage.setResizable(false);
-        stage.setOnCloseRequest(App::shutDown);
         stage.show();
         FlatterFX.style();
+    }
+
+    @Override
+    public void stop() {
+        executorService.shutdownNow();
+        Platform.exit();
+        applicationContext.stop();
     }
 
     public static void main(String[] args) {
         launch(args);
     }
 
-    private static void shutDown(WindowEvent event) {
-        executor.shutdownNow();
-        Platform.exit();
+    @Bean
+    public ExecutorService getExecutorService() {
+        return Executors.newSingleThreadExecutor();
     }
+
 }

@@ -10,18 +10,17 @@
     <name>welk-lidwoord</name>
 
     <dependencies>
-        <!-- HTTP Client-->
+        <!--HTTP Client-->
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
             <version>4.5.5</version>
-        </dependency>
-
-        <!-- Common utilities of Apache -->
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-            <version>2.6</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>commons-logging</artifactId>
+                    <groupId>commons-logging</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -30,7 +29,6 @@
             <version>3.7</version>
         </dependency>
 
-
         <!-- HTML parser-->
         <dependency>
             <groupId>org.jsoup</groupId>
@@ -38,18 +36,24 @@
             <version>1.11.3</version>
         </dependency>
 
-        <!-- JavaFX framework with ioc-->
-        <dependency>
-            <groupId>com.airhacks</groupId>
-            <artifactId>afterburner.fx</artifactId>
-            <version>1.7.0</version>
-        </dependency>
-
         <dependency>
             <groupId>com.guigarage</groupId>
             <artifactId>flatter</artifactId>
             <version>0.7</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-fxml</artifactId>
+            <version>11</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+            <version>2.0.5.RELEASE</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -57,76 +61,35 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.7.0</version>
+                <version>3.8.0</version>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <target>11</target>
+                    <release>11</release>
                 </configuration>
             </plugin>
 
-            <!-- Creating Jar file -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>3.0.0</version>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <mainClass>nl.altindag.welklidwoord.App</mainClass>
-                        </manifest>
-                    </archive>
-                    <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>
-                    <appendAssemblyId>false</appendAssemblyId>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>make-assembly</id> <!-- this is used for inheritance merges -->
-                        <phase>package</phase> <!-- bind to the packaging phase -->
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <!-- Show newest dependency version with mvn versions:display-dependency-updates -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-                <version>3.0.0</version>
-            </plugin>
-
-            <!-- Build native app-->
-            <plugin>
-                <groupId>com.zenjava</groupId>
-                <artifactId>javafx-maven-plugin</artifactId>
-                <version>8.8.3</version>
-                <configuration>
-                    <mainClass>nl.altindag.welklidwoord.App</mainClass>
-                    <title>Welk Lidwoord?</title>
-                    <vendor>Altindag</vendor>
-                    <verbose>true</verbose>
-                    <appName>Welk Lidwoord</appName>
-                </configuration>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.2.1</version>
                 <executions>
                     <execution>
-                        <phase>package</phase>
                         <goals>
-                            <goal>native</goal>
+                            <goal>java</goal>
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <mainClass>nl.altindag.welklidwoord.App</mainClass>
+                </configuration>
             </plugin>
         </plugins>
 
         <resources>
             <resource>
-                <directory>src/main/java</directory>
+                <directory>src/main/resources</directory>
                 <includes>
-                    <include>**/*.fxml</include>
-                    <include>**/*.css</include>
+                    <include>mainscreen.fxml</include>
                 </includes>
             </resource>
         </resources>

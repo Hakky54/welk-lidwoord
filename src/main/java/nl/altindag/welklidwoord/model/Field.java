@@ -1,11 +1,22 @@
 package nl.altindag.welklidwoord.model;
 
-public class Field {
+public enum Field {
 
-    public static final String DE_OF_HET = "de of het";
-    public static final String DEZE_OF_DIT = "deze of dit";
-    public static final String ELK_OF_ELKE = "elk of elke";
-    public static final String DIE_OF_DAT = "die of dat";
-    public static final String ONS_OF_ONZE = "ons of onze";
+    DE_OF_HET("de of het"),
+    DEZE_OF_DIT("deze of dit"),
+    ELK_OF_ELKE("elk of elke"),
+    DIE_OF_DAT("die of dat"),
+    ONS_OF_ONZE("ons of onze");
 
+    private String value;
+
+    Field(String value) {
+        this.value = value;
+    }
+
+
+    @Override
+    public String toString() {
+        return value;
+    }
 }

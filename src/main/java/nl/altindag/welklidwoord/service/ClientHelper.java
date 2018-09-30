@@ -11,31 +11,32 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import java.io.IOException;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.function.Supplier;
 
-import static nl.altindag.welklidwoord.App.executor;
 import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.apache.http.HttpHeaders.USER_AGENT;
 
-public abstract class AbstractService<T> {
+@Service
+public class ClientHelper {
 
     private HttpClient client;
+    private ExecutorService executorService;
     public static final Supplier<HttpClient> HTTP_CLIENT_SUPPLIER = () -> HttpClientBuilder.create().build();
 
-
-    @PostConstruct
-    private void init() {
+    @Autowired
+    public ClientHelper(ExecutorService executorService) {
+        this.executorService = executorService;
         setClient(HTTP_CLIENT_SUPPLIER);
     }
 
-    public abstract T get(String s) throws Exception;
-
     HttpGet createRequest(String url) {
-        HttpGet request = new HttpGet(url);
+        var request = new HttpGet(url);
         request.addHeader("User-Agent", USER_AGENT);
         return request;
     }
@@ -62,8 +63,8 @@ public abstract class AbstractService<T> {
         client = httpClientBuilder.build();
     }
 
-    Future<HttpResponse> getResponse(HttpGet request) throws IOException {
-        return executor.submit(() -> client.execute(request));
+    public Future<HttpResponse> getResponse(HttpGet request) {
+        return executorService.submit(() -> client.execute(request));
     }
 
     String parseResponse(HttpResponse response) throws IOException {
