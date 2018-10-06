@@ -7,22 +7,33 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.UnaryOperator;
+import java.util.stream.Stream;
+
+import static nl.altindag.welklidwoord.model.Field.*;
+import static org.apache.commons.lang3.StringUtils.EMPTY;
 
 @Service
 public class LidwoordServiceImpl implements LidwoordService {
 
     private SearchService searchService;
-    private Map<Field, String> container = new HashMap<>();
+    private Map<Field, String> container;
 
     @Autowired
     public LidwoordServiceImpl(SearchService searchService) {
         this.searchService = searchService;
+        InitializeContainer();
+    }
+
+    private void InitializeContainer() {
+        container = new HashMap<>();
+        Stream.of(Field.values())
+                .forEach(field -> container.put(field, EMPTY));
     }
 
     @Override
-    public Optional<Lidwoord> getLidwoord(String zelfstandigNaamwoord) {
+    public CompletableFuture<Lidwoord> getLidwoord(String zelfstandigNaamwoord) {
         return searchService.getLidwoord(zelfstandigNaamwoord);
     }
 
@@ -30,12 +41,16 @@ public class LidwoordServiceImpl implements LidwoordService {
     public Map<Field, String> getFields(Lidwoord lidwoord, String zelfstandigNaamwoord) {
         UnaryOperator<String> mapper = voorvoegsel -> voorvoegsel + " " + zelfstandigNaamwoord;
 
-        container.put(Field.DE_OF_HET, mapper.apply(lidwoord.toString()));
-        container.put(Field.DIE_OF_DAT, mapper.apply(getAanwijzendVoornaamwoordVer(lidwoord).toString()));
-        container.put(Field.DEZE_OF_DIT, mapper.apply(getAanwijzendVoornaamwoordDichtbij(lidwoord).toString()));
-        container.put(Field.ELK_OF_ELKE, mapper.apply(getOnbepaaldVoornaamwoord(lidwoord).toString()));
-        container.put(Field.ONS_OF_ONZE, mapper.apply(getBezittelijkVoornaamWoord(lidwoord).toString()));
+        container.put(DE_OF_HET, mapper.apply(lidwoord.toString()));
+        container.put(DIE_OF_DAT, mapper.apply(getAanwijzendVoornaamwoordVer(lidwoord).toString()));
+        container.put(DEZE_OF_DIT, mapper.apply(getAanwijzendVoornaamwoordDichtbij(lidwoord).toString()));
+        container.put(ELK_OF_ELKE, mapper.apply(getOnbepaaldVoornaamwoord(lidwoord).toString()));
+        container.put(ONS_OF_ONZE, mapper.apply(getBezittelijkVoornaamWoord(lidwoord).toString()));
         return container;
     }
 
+    @Override
+    public Map<Field, String> getContainer() {
+        return container;
+    }
 }

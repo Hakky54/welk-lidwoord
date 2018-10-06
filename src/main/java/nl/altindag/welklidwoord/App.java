@@ -13,13 +13,11 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 
 import java.io.IOException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.net.http.HttpClient;
 
 @SpringBootApplication
 public class App extends Application {
 
-    private ExecutorService executorService;
     private ConfigurableApplicationContext applicationContext;
     private Parent root;
     private static final String TITLE = "Welk lidwoord?";
@@ -27,7 +25,6 @@ public class App extends Application {
     @Override
     public void init() throws IOException {
         applicationContext = SpringApplication.run(App.class);
-        executorService = applicationContext.getBean(ExecutorService.class);
 
         FXMLLoader fxmlLoader = new FXMLLoader(this.getClass().getResource("/mainscreen.fxml"));
         fxmlLoader.setControllerFactory(applicationContext::getBean);
@@ -48,7 +45,6 @@ public class App extends Application {
 
     @Override
     public void stop() {
-        executorService.shutdownNow();
         Platform.exit();
         applicationContext.stop();
     }
@@ -58,8 +54,8 @@ public class App extends Application {
     }
 
     @Bean
-    public ExecutorService getExecutorService() {
-        return Executors.newSingleThreadExecutor();
+    public HttpClient httpClient() {
+        return HttpClient.newHttpClient();
     }
 
 }

@@ -4,19 +4,20 @@ import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextField;
 import nl.altindag.welklidwoord.model.Field;
-import nl.altindag.welklidwoord.service.ClientHelper;
+import nl.altindag.welklidwoord.service.LidwoordService;
 import nl.altindag.welklidwoord.service.LidwoordServiceImpl;
-import nl.altindag.welklidwoord.view.ProxyView;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import java.util.Map;
 
 import static javafx.geometry.Pos.CENTER;
 import static nl.altindag.welklidwoord.model.Field.*;
-import static nl.altindag.welklidwoord.service.ClientHelper.HTTP_CLIENT_SUPPLIER;
+import static org.apache.commons.lang3.StringUtils.EMPTY;
 
 @Controller
 public class LidwoordController {
@@ -34,16 +35,8 @@ public class LidwoordController {
     @FXML
     private TextField searchField;
     @FXML
-    public CheckMenuItem proxyCheckMenuItem;
-    @FXML
-    private MenuItem proxySettingsMenuItem;
-    @FXML
     private MenuItem closeMenuItem;
-    @Autowired
-    private ProxyView proxyView;
-    @Autowired
-    private ClientHelper clientHelper;
-    private LidwoordServiceImpl service;
+    private LidwoordService service;
 
     private SimpleStringProperty lidwoord = new SimpleStringProperty(DE_OF_HET.toString());
     private SimpleStringProperty aanwijzendVoornaamwoordVer = new SimpleStringProperty(DIE_OF_DAT.toString());
@@ -65,27 +58,11 @@ public class LidwoordController {
         aanwijzendVerLabel.textProperty().bind(aanwijzendVoornaamwoordVer);
 
         searchField.setAlignment(CENTER);
-
-        proxySettingsMenuItem.setOnAction(e -> proxyView.show());
-        proxyCheckMenuItem.selectedProperty()
-                .addListener((observable, oldValue, newValue) -> {
-                    if (newValue) {
-                        clientHelper.setClient(HTTP_CLIENT_SUPPLIER);
-                    } else {
-                        clientHelper.setClient(proxyView.getProxy());
-                    }
-                });
-        Platform.runLater(() -> {
-            proxyCheckMenuItem.disableProperty()
-                    .bind(proxyView.getFieldsAreEmptyBooleanBinding());
-
-        });
-
         closeMenuItem.setOnAction(e -> Platform.exit());
     }
 
     @FXML
-    public void about(ActionEvent actionEvent) {
+    public void about(ActionEvent event) {
         getAboutScreen().show();
     }
 
@@ -101,30 +78,29 @@ public class LidwoordController {
 
     @FXML
     public void onEnter(ActionEvent event) {
-        var zelfstandigNaamwoord = searchField.getText();
-        var lidwoord = service.getLidwoord(zelfstandigNaamwoord);
+        String zelfstandigNaamwoord = searchField.getText().toLowerCase();
 
-        if (lidwoord.isPresent()) {
-            Map<Field, String> container = service.getFields(lidwoord.get(), zelfstandigNaamwoord);
-            setAllFields(container);
-        } else {
-            displayMessage("Woord niet gevonden...");
-        }
+        service.getLidwoord(zelfstandigNaamwoord)
+                .thenApply(lidwoord -> service.getFields(lidwoord, zelfstandigNaamwoord))
+                .exceptionally(exception -> this.getFieldsForError(exception.getCause().getMessage()))
+                .thenAccept(this::setAllFields);
     }
 
     private void setAllFields(Map<Field, String> container) {
-        lidwoord.set(container.get(DE_OF_HET));
-        aanwijzendVoornaamwoordVer.set(container.get(DIE_OF_DAT));
-        aanwijzendVoornaamwoordDichtbij.set(container.get(DEZE_OF_DIT));
-        bezittelijkVoornaamwoordOns.set(container.get(ONS_OF_ONZE));
-        onbepaaldVoornaamwoord.set(container.get(ELK_OF_ELKE));
+        Platform.runLater(() -> {
+            lidwoord.set(container.get(DE_OF_HET));
+            aanwijzendVoornaamwoordVer.set(container.get(DIE_OF_DAT));
+            aanwijzendVoornaamwoordDichtbij.set(container.get(DEZE_OF_DIT));
+            bezittelijkVoornaamwoordOns.set(container.get(ONS_OF_ONZE));
+            onbepaaldVoornaamwoord.set(container.get(ELK_OF_ELKE));
+        });
     }
 
-    private void displayMessage(String message) {
-        lidwoord.set(null);
-        aanwijzendVoornaamwoordVer.set(null);
-        aanwijzendVoornaamwoordDichtbij.set(message);
-        bezittelijkVoornaamwoordOns.set(null);
-        onbepaaldVoornaamwoord.set(null);
+    private Map<Field, String> getFieldsForError(String message) {
+        Map<Field, String> container = service.getContainer();
+        container.replaceAll((key, value) -> EMPTY);
+        container.put(DEZE_OF_DIT, message);
+        return container;
     }
+
 }

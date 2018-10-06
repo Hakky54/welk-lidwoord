@@ -36,8 +36,6 @@
            <menus>
                <Menu fx:id="options" mnemonicParsing="false" text="Optie">
                    <items>
-                       <MenuItem fx:id="proxySettingsMenuItem" mnemonicParsing="false" text="Proxy instellingen"/>
-                       <CheckMenuItem fx:id="proxyCheckMenuItem" mnemonicParsing="false" text="Proxy uitzetten"/>
                        <MenuItem fx:id="about" mnemonicParsing="false" onAction="#about" text="Over Welk Lidwoord"/>
                        <MenuItem fx:id="closeMenuItem" mnemonicParsing="false" text="Sluiten"/>
                    </items>
