@@ -24,12 +24,14 @@ public class LidwoordServiceImpl implements LidwoordService {
 
     private VanDaleService vanDaleService;
     private WelkLidwoordService welkLidwoordService;
+    private WoordenService woordenService;
     private Map<Field, String> container;
 
     @Autowired
-    public LidwoordServiceImpl(VanDaleService vanDaleService, WelkLidwoordService welkLidwoordService) {
+    public LidwoordServiceImpl(VanDaleService vanDaleService, WelkLidwoordService welkLidwoordService, WoordenService woordenService) {
         this.vanDaleService = vanDaleService;
         this.welkLidwoordService = welkLidwoordService;
+        this.woordenService = woordenService;
         InitializeContainer();
     }
 
@@ -42,6 +44,7 @@ public class LidwoordServiceImpl implements LidwoordService {
     @Override
     public CompletableFuture<Lidwoord> getLidwoord(String zelfstandigNaamwoord) {
         return welkLidwoordService.getLidwoord(zelfstandigNaamwoord)
+                .exceptionally(exception -> woordenService.getLidwoord(zelfstandigNaamwoord).join())
                 .exceptionally(exception -> vanDaleService.getLidwoord(zelfstandigNaamwoord).join());
     }
 

@@ -2,6 +2,7 @@ package nl.altindag.welklidwoord.service;
 
 import java.net.http.HttpResponse;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.UnaryOperator;
 
 import org.jsoup.Jsoup;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ public class WelkLidwoordService implements SearchService {
                  .thenApply(clientHelper::getResponse)
                  .thenApply(HttpResponse::body)
                  .thenApply(Jsoup::parse)
-                 .thenApply(document -> extractLidwoord(document, elements -> elements.getElementsByTag(LIDWOORD_ELEMENT_ATTRIBUTE_KEY)));
+                 .thenApply(document -> extractLidwoord(document, elements -> elements.getElementsByTag(LIDWOORD_ELEMENT_ATTRIBUTE_KEY), UnaryOperator.identity()));
     }
 
 }
