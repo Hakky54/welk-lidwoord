@@ -1,9 +1,11 @@
 package nl.altindag.welklidwoord.service;
 
-import nl.altindag.welklidwoord.model.Field;
-import nl.altindag.welklidwoord.model.Lidwoord;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import static nl.altindag.welklidwoord.model.Field.DEZE_OF_DIT;
+import static nl.altindag.welklidwoord.model.Field.DE_OF_HET;
+import static nl.altindag.welklidwoord.model.Field.DIE_OF_DAT;
+import static nl.altindag.welklidwoord.model.Field.ELK_OF_ELKE;
+import static nl.altindag.welklidwoord.model.Field.ONS_OF_ONZE;
+import static org.apache.commons.lang3.StringUtils.EMPTY;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,18 +13,23 @@ import java.util.concurrent.CompletableFuture;
 import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
 
-import static nl.altindag.welklidwoord.model.Field.*;
-import static org.apache.commons.lang3.StringUtils.EMPTY;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import nl.altindag.welklidwoord.model.Field;
+import nl.altindag.welklidwoord.model.Lidwoord;
 
 @Service
 public class LidwoordServiceImpl implements LidwoordService {
 
-    private SearchService searchService;
+    private VanDaleService vanDaleService;
+    private WelkLidwoordService welkLidwoordService;
     private Map<Field, String> container;
 
     @Autowired
-    public LidwoordServiceImpl(SearchService searchService) {
-        this.searchService = searchService;
+    public LidwoordServiceImpl(VanDaleService vanDaleService, WelkLidwoordService welkLidwoordService) {
+        this.vanDaleService = vanDaleService;
+        this.welkLidwoordService = welkLidwoordService;
         InitializeContainer();
     }
 
@@ -34,7 +41,8 @@ public class LidwoordServiceImpl implements LidwoordService {
 
     @Override
     public CompletableFuture<Lidwoord> getLidwoord(String zelfstandigNaamwoord) {
-        return searchService.getLidwoord(zelfstandigNaamwoord);
+        return welkLidwoordService.getLidwoord(zelfstandigNaamwoord)
+                .exceptionally(exception -> vanDaleService.getLidwoord(zelfstandigNaamwoord).join());
     }
 
     @Override
