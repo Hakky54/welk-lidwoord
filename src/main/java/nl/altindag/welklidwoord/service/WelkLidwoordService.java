@@ -25,10 +25,10 @@ public class WelkLidwoordService implements SearchService {
     @Override
     public CompletableFuture<Lidwoord> getLidwoord(String zelfstandigNaamwoord) {
         return CompletableFuture.supplyAsync(() -> clientHelper.createRequest(URL + zelfstandigNaamwoord))
-                         .thenApply(request -> clientHelper.getResponse(request))
-                         .thenApply(HttpResponse::body)
-                         .thenApply(Jsoup::parse)
-                         .thenApply(document -> extractLidwoord(document, elements -> elements.getElementsByTag(LIDWOORD_ELEMENT_ATTRIBUTE_KEY)));
+                 .thenApply(clientHelper::getResponse)
+                 .thenApply(HttpResponse::body)
+                 .thenApply(Jsoup::parse)
+                 .thenApply(document -> extractLidwoord(document, elements -> elements.getElementsByTag(LIDWOORD_ELEMENT_ATTRIBUTE_KEY)));
     }
 
 }

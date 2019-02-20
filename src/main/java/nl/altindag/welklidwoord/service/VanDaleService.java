@@ -26,7 +26,7 @@ public class VanDaleService implements SearchService {
     @Override
     public CompletableFuture<Lidwoord> getLidwoord(String zelfstandigNaamwoord) {
         return CompletableFuture.supplyAsync(() -> clientHelper.createRequest(URL + zelfstandigNaamwoord))
-                .thenApply(request -> clientHelper.getResponse(request))
+                .thenApply(clientHelper::getResponse)
                 .thenApply(HttpResponse::body)
                 .thenApply(Jsoup::parse)
                 .thenApply(document -> extractLidwoord(document, elements -> elements.getElementsByAttributeValueContaining(LIDWOORD_ELEMENT_ATTRIBUTE.getKey(), LIDWOORD_ELEMENT_ATTRIBUTE.getValue())));
