@@ -1,5 +1,18 @@
 package nl.altindag.welklidwoord.controller;
 
+import static javafx.geometry.Pos.CENTER;
+import static nl.altindag.welklidwoord.model.Field.DEZE_OF_DIT;
+import static nl.altindag.welklidwoord.model.Field.DE_OF_HET;
+import static nl.altindag.welklidwoord.model.Field.DIE_OF_DAT;
+import static nl.altindag.welklidwoord.model.Field.ELK_OF_ELKE;
+import static nl.altindag.welklidwoord.model.Field.ONS_OF_ONZE;
+import static org.apache.commons.lang3.StringUtils.EMPTY;
+import static org.apache.commons.lang3.StringUtils.SPACE;
+
+import java.util.Map;
+
+import org.springframework.stereotype.Controller;
+
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
@@ -11,13 +24,6 @@ import javafx.scene.control.TextField;
 import nl.altindag.welklidwoord.model.Field;
 import nl.altindag.welklidwoord.service.LidwoordService;
 import nl.altindag.welklidwoord.service.LidwoordServiceImpl;
-import org.springframework.stereotype.Controller;
-
-import java.util.Map;
-
-import static javafx.geometry.Pos.CENTER;
-import static nl.altindag.welklidwoord.model.Field.*;
-import static org.apache.commons.lang3.StringUtils.EMPTY;
 
 @Controller
 public class LidwoordController {
@@ -59,6 +65,12 @@ public class LidwoordController {
 
         searchField.setAlignment(CENTER);
         closeMenuItem.setOnAction(e -> Platform.exit());
+
+        searchField.textProperty().addListener((observableValue, oldValue, newValue) -> {
+            if (newValue.contains(SPACE)) {
+                searchField.setText(oldValue);
+            }
+        });
     }
 
     @FXML

@@ -39,6 +39,6 @@ public class WelkLidwoordService implements SearchService {
                     .filter(element -> element.matches(LIDWOORD))
                     .map(lidwoord -> Lidwoord.valueOf(lidwoord.toUpperCase()))
                     .findAny()
-                    .orElseThrow(() -> new RuntimeException("Could not extract the word"));
+                    .orElseThrow(() -> new RuntimeException("Couldn't find the word"));
     }
 }

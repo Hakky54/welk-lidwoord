@@ -1,14 +1,15 @@
 package nl.altindag.welklidwoord.service;
 
-import javafx.util.Pair;
-import nl.altindag.welklidwoord.model.Lidwoord;
+import java.net.http.HttpResponse;
+import java.util.concurrent.CompletableFuture;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.net.http.HttpResponse;
-import java.util.concurrent.CompletableFuture;
+import javafx.util.Pair;
+import nl.altindag.welklidwoord.model.Lidwoord;
 
 @Service
 public class VanDaleService implements SearchService {
@@ -39,7 +40,7 @@ public class VanDaleService implements SearchService {
                 .filter(element -> element.matches(LIDWOORD))
                 .map(lidwoord -> Lidwoord.valueOf(lidwoord.toUpperCase()))
                 .findAny()
-                .orElseThrow(() -> new RuntimeException("Could not extract the word"));
+                .orElseThrow(() -> new RuntimeException("Couldn't find the word"));
     }
 
 }
