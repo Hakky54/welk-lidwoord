@@ -35,12 +35,12 @@ public class WoordenService implements SearchService {
     }
 
     private String getLidwoordFromValue(String raw) {
+        String lidwoord = raw;
         Matcher matcher = PATTERN.matcher(raw);
 
         if (matcher.find()) {
-            return matcher.group(1);
-        } else {
-            return raw;
+            lidwoord = matcher.group(1);
         }
+        return lidwoord;
     }
 }

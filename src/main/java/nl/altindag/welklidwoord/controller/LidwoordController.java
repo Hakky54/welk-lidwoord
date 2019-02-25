@@ -11,6 +11,7 @@ import static org.apache.commons.lang3.StringUtils.SPACE;
 
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import javafx.application.Platform;
@@ -23,7 +24,6 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import nl.altindag.welklidwoord.model.Field;
 import nl.altindag.welklidwoord.service.LidwoordService;
-import nl.altindag.welklidwoord.service.LidwoordServiceImpl;
 
 @Controller
 public class LidwoordController {
@@ -51,7 +51,8 @@ public class LidwoordController {
     private SimpleStringProperty onbepaaldVoornaamwoord = new SimpleStringProperty(ELK_OF_ELKE.toString());
     private Alert aboutScreen;
 
-    public LidwoordController(LidwoordServiceImpl service) {
+    @Autowired
+    public LidwoordController(LidwoordService service) {
         this.service = service;
     }
 
