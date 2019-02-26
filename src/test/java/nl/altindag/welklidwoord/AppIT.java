@@ -1,29 +1,23 @@
+package nl.altindag.welklidwoord;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.concurrent.TimeUnit;
 
-import org.junit.BeforeClass;
 import org.junit.Test;
-import org.testfx.framework.junit.ApplicationTest;
 
 import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
-import nl.altindag.welklidwoord.App;
 
-public class AppIT extends ApplicationTest {
-
-    @BeforeClass
-    public static void setUpClass() throws Exception {
-        ApplicationTest.launch(App.class);
-    }
+public class AppIT extends TestFXBase {
 
     @Test
     public void shouldReturnLidwoord() throws InterruptedException {
-        Label lidwoordLabel = lookup("#lidwoordLabel").queryAs(Label.class);
-        Label aanwijzendVerLabel = lookup("#aanwijzendVerLabel").queryAs(Label.class);
-        Label aanwijzendDichtbijLabel = lookup("#aanwijzendDichtbijLabel").queryAs(Label.class);
-        Label bezittelijkOnsLabel = lookup("#bezittelijkOnsLabel").queryAs(Label.class);
-        Label onbepaaldLabel = lookup("#onbepaaldLabel").queryAs(Label.class);
+        Label lidwoordLabel = find("#lidwoordLabel");
+        Label aanwijzendVerLabel = find("#aanwijzendVerLabel");
+        Label aanwijzendDichtbijLabel = find("#aanwijzendDichtbijLabel");
+        Label bezittelijkOnsLabel = find("#bezittelijkOnsLabel");
+        Label onbepaaldLabel = find("#onbepaaldLabel");
 
         clickOn("#searchField").write("boom").type(KeyCode.ENTER);
 

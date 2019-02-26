@@ -11,6 +11,21 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <version.httpclient>4.5.7</version.httpclient>
+        <version.commons-lang3>3.8.1</version.commons-lang3>
+        <version.jsoup>1.11.3</version.jsoup>
+        <version.flatter>0.7</version.flatter>
+        <version.javafx-fxml>11.0.2</version.javafx-fxml>
+        <version.spring-boot>2.1.3.RELEASE</version.spring-boot>
+        <version.mockito-core>2.24.5</version.mockito-core>
+        <version.junit>4.12</version.junit>
+        <version.assertj-core>3.12.0</version.assertj-core>
+        <version.testfx>4.0.15-alpha</version.testfx>
+        <version.openjfx-monocle>jdk-11+26</version.openjfx-monocle>
+        <version.java>11</version.java>
+        <version.maven-compiler-plugin>3.8.0</version.maven-compiler-plugin>
+        <version.maven-surefire-plugin>3.0.0-M3</version.maven-surefire-plugin>
+        <version.exec-maven-plugin>1.2.1</version.exec-maven-plugin>
     </properties>
 
     <dependencies>
@@ -18,7 +33,7 @@
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
-            <version>4.5.7</version>
+            <version>${version.httpclient}</version>
             <exclusions>
                 <exclusion>
                     <artifactId>commons-logging</artifactId>
@@ -30,62 +45,78 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.8.1</version>
+            <version>${version.commons-lang3}</version>
         </dependency>
 
         <!-- HTML parser-->
         <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
-            <version>1.11.3</version>
+            <version>${version.jsoup}</version>
         </dependency>
 
         <dependency>
             <groupId>com.guigarage</groupId>
             <artifactId>flatter</artifactId>
-            <version>0.7</version>
+            <version>${version.flatter}</version>
         </dependency>
 
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
-            <version>11.0.2</version>
+            <version>${version.javafx-fxml}</version>
         </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
-            <version>2.1.3.RELEASE</version>
+            <version>${version.spring-boot}</version>
         </dependency>
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>2.24.5</version>
+            <version>${version.mockito-core}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.12</version>
+            <version>${version.junit}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
-            <version>3.12.0</version>
+            <version>${version.assertj-core}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.testfx</groupId>
             <artifactId>testfx-core</artifactId>
-            <version>4.0.15-alpha</version>
+            <version>${version.testfx}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.testfx</groupId>
             <artifactId>testfx-junit</artifactId>
-            <version>4.0.15-alpha</version>
+            <version>${version.testfx}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testfx</groupId>
+            <artifactId>openjfx-monocle</artifactId>
+            <version>${version.openjfx-monocle}</version>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.openjfx</groupId>
+                    <artifactId>javafx-base</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.openjfx</groupId>
+                    <artifactId>javafx-graphics</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 
@@ -94,17 +125,17 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.0</version>
+                <version>${version.maven-compiler-plugin}</version>
                 <configuration>
-                    <target>11</target>
-                    <release>11</release>
+                    <target>${version.java}</target>
+                    <release>${version.java}</release>
                 </configuration>
             </plugin>
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.0.0-M3</version>
+                <version>${version.maven-surefire-plugin}</version>
                 <configuration>
                     <forkCount>0</forkCount>
                     <reuseForks>false</reuseForks>
@@ -117,7 +148,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
-                <version>1.2.1</version>
+                <version>${version.exec-maven-plugin}</version>
                 <executions>
                     <execution>
                         <goals>
@@ -133,7 +164,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>2.1.3.RELEASE</version>
+                <version>${version.spring-boot}</version>
                 <configuration>
                     <mainClass>nl.altindag.welklidwoord.App</mainClass>
                 </configuration>
