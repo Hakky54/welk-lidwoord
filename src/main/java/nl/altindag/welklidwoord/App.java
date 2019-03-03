@@ -1,5 +1,7 @@
 package nl.altindag.welklidwoord;
 
+import static javafx.stage.StageStyle.UNDECORATED;
+
 import java.io.IOException;
 import java.net.http.HttpClient;
 import java.util.function.Function;
@@ -17,7 +19,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 @SpringBootApplication
 public class App extends Application {
@@ -80,12 +81,11 @@ public class App extends Application {
 
         Scene scene = new Scene(root);
         loadingStage = new Stage();
-        loadingStage.initStyle(StageStyle.UNDECORATED);
+        loadingStage.initStyle(UNDECORATED);
         loadingStage.setResizable(false);
         loadingStage.setAlwaysOnTop(true);
         loadingStage.setScene(scene);
         loadingStage.show();
-        FlatterFX.style();
     }
 
 }
