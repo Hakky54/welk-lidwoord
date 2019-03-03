@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label text="Loading...">
+         <padding>
+            <Insets bottom="30.0" left="100.0" right="100.0" top="30.0" />
+         </padding>
+         <font>
+            <Font name="Andale Mono" size="48.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

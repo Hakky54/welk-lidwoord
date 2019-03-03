@@ -183,6 +183,7 @@
                 <directory>src/main/resources</directory>
                 <includes>
                     <include>mainscreen.fxml</include>
+                    <include>loadingscreen.fxml</include>
                 </includes>
             </resource>
         </resources>
