@@ -23,11 +23,15 @@ import javafx.stage.Stage;
 @SpringBootApplication
 public class App extends Application {
 
-    private ConfigurableApplicationContext applicationContext;
-    private Parent root;
-    private Stage loadingStage;
     private static final String TITLE = "Welk lidwoord?";
+    private ConfigurableApplicationContext applicationContext;
     private final Function<String, FXMLLoader> fxmlLoaderFunction = fxml -> new FXMLLoader(this.getClass().getResource(fxml));
+
+    private Parent root;
+    private double xOffset = 0;
+    private double yOffset = 0;
+
+    private Stage loadingStage;
 
     @Override
     public void init() throws IOException {
@@ -44,12 +48,24 @@ public class App extends Application {
     @Override
     public void start(Stage stage) {
         Scene scene = new Scene(root);
+        stage.initStyle(UNDECORATED);
         stage.setTitle(TITLE);
         stage.setScene(scene);
         stage.setWidth(800);
         stage.setHeight(600);
         stage.setResizable(false);
         stage.setOnShowing(windowEvent -> loadingStage.close());
+
+        root.setOnMousePressed(event -> {
+            xOffset = event.getSceneX();
+            yOffset = event.getSceneY();
+        });
+
+        root.setOnMouseDragged(event -> {
+            stage.setX(event.getScreenX() - xOffset);
+            stage.setY(event.getScreenY() - yOffset);
+        });
+
         stage.show();
         FlatterFX.style();
     }

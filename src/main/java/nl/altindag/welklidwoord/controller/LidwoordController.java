@@ -84,7 +84,7 @@ public class LidwoordController {
             aboutScreen = new Alert(Alert.AlertType.INFORMATION);
             aboutScreen.setTitle("Over Welk Lidwoord");
             aboutScreen.setHeaderText("Over Welk Lidwoord");
-            aboutScreen.setContentText("App versie 1.0");
+            aboutScreen.setContentText("App versie 1.0\nGemaakt door Hakan Altındağ");
         }
         return aboutScreen;
     }
