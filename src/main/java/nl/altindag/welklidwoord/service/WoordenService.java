@@ -27,8 +27,7 @@ public class WoordenService implements SearchService {
 
     @Override
     public CompletableFuture<Lidwoord> getLidwoord(String zelfstandigNaamwoord) {
-        return CompletableFuture.supplyAsync(() -> clientHelper.createRequest(URL + zelfstandigNaamwoord))
-                .thenApply(clientHelper::getResponse)
+        return clientHelper.getResponse(clientHelper.createRequest(URL + zelfstandigNaamwoord))
                 .thenApply(HttpResponse::body)
                 .thenApply(Jsoup::parse)
                 .thenApply(document -> extractLidwoord(document, elements -> elements.getElementsByClass(LIDWOORD_ELEMENT_ATTRIBUTE_KEY), this::getLidwoordFromValue));

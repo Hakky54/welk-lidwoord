@@ -1,14 +1,15 @@
 package nl.altindag.welklidwoord.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.net.http.HttpResponse.BodyHandlers;
 import java.time.Duration;
+import java.util.concurrent.CompletableFuture;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 public class ClientHelper {
@@ -27,12 +28,8 @@ public class ClientHelper {
                 .build();
     }
 
-    HttpResponse<String> getResponse(HttpRequest request) {
-        try {
-            return client.send(request, HttpResponse.BodyHandlers.ofString());
-        } catch (IOException | InterruptedException exception) {
-            throw new RuntimeException("Could not get the response");
-        }
+    CompletableFuture<HttpResponse<String>> getResponse(HttpRequest request) {
+        return client.sendAsync(request, BodyHandlers.ofString());
     }
 
 }

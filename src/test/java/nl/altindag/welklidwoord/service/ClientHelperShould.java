@@ -2,14 +2,14 @@ package nl.altindag.welklidwoord.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
-import java.io.IOException;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
+import java.util.concurrent.CompletableFuture;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -41,38 +41,16 @@ public class ClientHelperShould {
     }
 
     @Test
-    public void getResponse() throws IOException, InterruptedException {
+    public void getResponse() {
         HttpRequest mockedRequest = mock(HttpRequest.class);
         HttpResponse mockedResponse = mock(HttpResponse.class);
+        CompletableFuture<HttpResponse<String>> completedFuture = CompletableFuture.completedFuture(mockedResponse);
 
-        when(client.send(any(HttpRequest.class), any(HttpResponse.BodyHandler.class))).thenReturn(mockedResponse);
+        doReturn(completedFuture).when(client).sendAsync(any(HttpRequest.class), any(HttpResponse.BodyHandler.class));
 
-        HttpResponse<String> response = victim.getResponse(mockedRequest);
-        assertThat(response).isNotNull();
-        assertThat(response).isEqualTo(mockedResponse);
+        CompletableFuture<HttpResponse<String>> response = victim.getResponse(mockedRequest);
+        assertThat(response.join()).isNotNull();
+        assertThat(response.join()).isEqualTo(mockedResponse);
     }
-
-    @Test
-    public void throwExceptionWhenClientCouldNotParseResponse() throws IOException, InterruptedException {
-        expectedEx.expect(RuntimeException.class);
-        expectedEx.expectMessage("Could not get the response");
-        HttpRequest mockedRequest = mock(HttpRequest.class);
-
-        when(client.send(any(), any())).thenThrow(new IOException());
-
-        victim.getResponse(mockedRequest);
-    }
-
-    @Test
-    public void throwExceptionWhenClientTimesOut() throws IOException, InterruptedException {
-        expectedEx.expect(RuntimeException.class);
-        expectedEx.expectMessage("Could not get the response");
-        HttpRequest mockedRequest = mock(HttpRequest.class);
-
-        when(client.send(any(), any())).thenThrow(new InterruptedException());
-
-        victim.getResponse(mockedRequest);
-    }
-
 
 }

@@ -31,9 +31,10 @@ public class VanDaleServiceShould {
     public void getLidwoord() throws ExecutionException, InterruptedException {
         HttpRequest mockedRequest = mock(HttpRequest.class);
         HttpResponse<String> mockedResponse = mock(HttpResponse.class);
+        CompletableFuture<HttpResponse<String>> completedFuture = CompletableFuture.completedFuture(mockedResponse);
 
         when(clientHelper.createRequest(anyString())).thenReturn(mockedRequest);
-        when(clientHelper.getResponse(any(HttpRequest.class))).thenReturn(mockedResponse);
+        when(clientHelper.getResponse(any(HttpRequest.class))).thenReturn(completedFuture);
         when(mockedResponse.body()).thenReturn("<html><head></head><body><span class=\"fq\">de</span></body></html>");
 
         CompletableFuture<Lidwoord> response = victim.getLidwoord("boom");
