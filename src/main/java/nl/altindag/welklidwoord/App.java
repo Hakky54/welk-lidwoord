@@ -48,7 +48,6 @@ public class App extends Application {
     @Override
     public void start(Stage stage) {
         Scene scene = new Scene(root);
-        stage.initStyle(UNDECORATED);
         stage.setTitle(TITLE);
         stage.setScene(scene);
         stage.setWidth(800);

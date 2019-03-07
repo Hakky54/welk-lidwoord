@@ -13,7 +13,6 @@ import static org.mockito.Mockito.when;
 
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,7 +21,6 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import nl.altindag.welklidwoord.model.Field;
-import nl.altindag.welklidwoord.model.Lidwoord;
 
 @RunWith(MockitoJUnitRunner.class)
 public class LidwoordServiceImplShould {
@@ -37,30 +35,30 @@ public class LidwoordServiceImplShould {
     private LidwoordServiceImpl victim;
 
     @Test
-    public void getLidwoord() throws ExecutionException, InterruptedException {
+    public void getLidwoord() {
         when(welkLidwoordService.getLidwoord(anyString())).thenReturn(CompletableFuture.completedFuture(DE));
 
-        CompletableFuture<Lidwoord> response = victim.getLidwoord("boom");
-        assertThat(response.get()).isEqualTo(DE);
+        var response = victim.getLidwoord("boom");
+        assertThat(response.join()).isEqualTo(DE);
     }
 
     @Test
-    public void getLidwoordWhenWelkLidwoordServiceIsUnavailable() throws ExecutionException, InterruptedException {
+    public void getLidwoordWhenWelkLidwoordServiceIsUnavailable() {
         when(welkLidwoordService.getLidwoord(anyString())).thenReturn(CompletableFuture.failedFuture(new RuntimeException("SERVICE NOT AVAILABLE")));
         when(woordenService.getLidwoord(anyString())).thenReturn(CompletableFuture.completedFuture(DE));
 
-        CompletableFuture<Lidwoord> response = victim.getLidwoord("boom");
-        assertThat(response.get()).isEqualTo(DE);
+        var response = victim.getLidwoord("boom");
+        assertThat(response.join()).isEqualTo(DE);
     }
 
     @Test
-    public void getLidwoordWhenWelkLidwoordServiceAndWoordenServiceAreUnavailable() throws ExecutionException, InterruptedException {
+    public void getLidwoordWhenWelkLidwoordServiceAndWoordenServiceAreUnavailable() {
         when(welkLidwoordService.getLidwoord(anyString())).thenReturn(CompletableFuture.failedFuture(new RuntimeException("SERVICE NOT AVAILABLE")));
         when(woordenService.getLidwoord(anyString())).thenReturn(CompletableFuture.failedFuture(new RuntimeException("SERVICE NOT AVAILABLE")));
         when(vanDaleService.getLidwoord(anyString())).thenReturn(CompletableFuture.completedFuture(DE));
 
-        CompletableFuture<Lidwoord> response = victim.getLidwoord("boom");
-        assertThat(response.get()).isEqualTo(DE);
+        var response = victim.getLidwoord("boom");
+        assertThat(response.join()).isEqualTo(DE);
     }
 
     @Test

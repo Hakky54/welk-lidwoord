@@ -9,7 +9,6 @@ import static org.mockito.Mockito.when;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -33,35 +32,36 @@ public class WoordenServiceShould {
     public ExpectedException expectedEx = ExpectedException.none();
 
     @Test
-    public void getLidwoord() throws ExecutionException, InterruptedException {
-        HttpRequest mockedRequest = mock(HttpRequest.class);
-        HttpResponse<String> mockedResponse = mock(HttpResponse.class);
-        CompletableFuture<HttpResponse<String>> completedFuture = CompletableFuture.completedFuture(mockedResponse);
+    @SuppressWarnings("unchecked")
+    public void getLidwoord() {
+        var mockedRequest = mock(HttpRequest.class);
+        var mockedResponse = (HttpResponse<String>) mock(HttpResponse.class);
+        var completedFuture = CompletableFuture.completedFuture(mockedResponse);
 
         when(clientHelper.createRequest(anyString())).thenReturn(mockedRequest);
-
         when(clientHelper.getResponse(any())).thenReturn(completedFuture);
         when(mockedResponse.body()).thenReturn("<html><head></head><body><h2 class=\"inline\"><font style=\"font-size:8pt\">de </font>boom</h2></body></html>");
 
-        CompletableFuture<Lidwoord> response = victim.getLidwoord("boom");
+        var response = victim.getLidwoord("boom");
 
         assertThat(response).isNotNull();
-        assertThat(response.get()).isEqualTo(Lidwoord.DE);
+        assertThat(response.join()).isEqualTo(Lidwoord.DE);
     }
 
     @Test
-    public void throwExceptionWhenNoLidwoordIsFound() throws ExecutionException, InterruptedException {
+    @SuppressWarnings("unchecked")
+    public void throwExceptionWhenNoLidwoordIsFound() {
         expectedEx.expectMessage("Couldn't find the word");
 
-        HttpRequest mockedRequest = mock(HttpRequest.class);
-        HttpResponse<String> mockedResponse = mock(HttpResponse.class);
-        CompletableFuture<HttpResponse<String>> completedFuture = CompletableFuture.completedFuture(mockedResponse);
+        var mockedRequest = mock(HttpRequest.class);
+        var mockedResponse = (HttpResponse<String>) mock(HttpResponse.class);
+        var completedFuture = CompletableFuture.completedFuture(mockedResponse);
 
         when(clientHelper.createRequest(anyString())).thenReturn(mockedRequest);
         when(clientHelper.getResponse(any(HttpRequest.class))).thenReturn(completedFuture);
         when(mockedResponse.body()).thenReturn("<html><head></head><body><h2 class=\"inline\"><font style=\"font-size:8pt\">jhgjhgkiuyiuyhj</font>boom</h2></body></html>");
 
-        victim.getLidwoord("boom").get();
+        victim.getLidwoord("boom").join();
     }
 
 }

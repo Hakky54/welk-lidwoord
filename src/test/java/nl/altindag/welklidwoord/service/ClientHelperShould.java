@@ -2,8 +2,8 @@ package nl.altindag.welklidwoord.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -41,14 +41,15 @@ public class ClientHelperShould {
     }
 
     @Test
+    @SuppressWarnings("unchecked")
     public void getResponse() {
-        HttpRequest mockedRequest = mock(HttpRequest.class);
-        HttpResponse mockedResponse = mock(HttpResponse.class);
-        CompletableFuture<HttpResponse<String>> completedFuture = CompletableFuture.completedFuture(mockedResponse);
+        var mockedRequest = mock(HttpRequest.class);
+        var mockedResponse = (HttpResponse<String>) mock(HttpResponse.class);
+        var completedFuture = CompletableFuture.completedFuture(mockedResponse);
 
-        doReturn(completedFuture).when(client).sendAsync(any(HttpRequest.class), any(HttpResponse.BodyHandler.class));
+        when(client.sendAsync(any(HttpRequest.class), any(HttpResponse.BodyHandler.class))).thenReturn(completedFuture);
 
-        CompletableFuture<HttpResponse<String>> response = victim.getResponse(mockedRequest);
+        var response = victim.getResponse(mockedRequest);
         assertThat(response.join()).isNotNull();
         assertThat(response.join()).isEqualTo(mockedResponse);
     }
