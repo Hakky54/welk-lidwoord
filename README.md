@@ -8,3 +8,5 @@ Een app die je helpt met kiezen van het juiste lidwoord
 ### Bouwen & Opstarten
 Dit is mogelijk door middel van maven:
 - mvn compile exec:java
+
+--add-exports javafx.graphics/com.sun.javafx.css=flatter
