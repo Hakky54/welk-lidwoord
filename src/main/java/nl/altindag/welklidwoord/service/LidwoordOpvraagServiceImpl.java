@@ -20,7 +20,7 @@ import nl.altindag.welklidwoord.model.Field;
 import nl.altindag.welklidwoord.model.Lidwoord;
 
 @Service
-public class LidwoordServiceImpl implements LidwoordService {
+public class LidwoordOpvraagServiceImpl implements LidwoordOpvraagService {
 
     private VanDaleService vanDaleService;
     private WelkLidwoordService welkLidwoordService;
@@ -28,7 +28,7 @@ public class LidwoordServiceImpl implements LidwoordService {
     private Map<Field, String> container;
 
     @Autowired
-    public LidwoordServiceImpl(VanDaleService vanDaleService, WelkLidwoordService welkLidwoordService, WoordenService woordenService) {
+    public LidwoordOpvraagServiceImpl(VanDaleService vanDaleService, WelkLidwoordService welkLidwoordService, WoordenService woordenService) {
         this.vanDaleService = vanDaleService;
         this.welkLidwoordService = welkLidwoordService;
         this.woordenService = woordenService;

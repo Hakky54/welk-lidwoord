@@ -24,7 +24,7 @@ public interface SearchService {
                     .map(rawFieldMapper)
                     .map(lidwoord -> Lidwoord.valueOf(lidwoord.toUpperCase()))
                     .findAny()
-                    .orElseThrow(() -> new RuntimeException("Couldn't find the word"));
+                    .orElseThrow(() -> new RuntimeException("Ik kon het lidwoord niet vinden"));
     }
 
 }

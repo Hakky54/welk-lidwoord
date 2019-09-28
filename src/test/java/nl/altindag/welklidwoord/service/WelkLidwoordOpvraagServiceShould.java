@@ -19,7 +19,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import nl.altindag.welklidwoord.model.Lidwoord;
 
 @RunWith(MockitoJUnitRunner.class)
-public class WelkLidwoordServiceShould {
+public class WelkLidwoordOpvraagServiceShould {
 
     @Mock
     private ClientHelper clientHelper;

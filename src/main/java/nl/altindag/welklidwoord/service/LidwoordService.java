@@ -1,41 +1,91 @@
 package nl.altindag.welklidwoord.service;
 
-import nl.altindag.welklidwoord.model.*;
+import static nl.altindag.welklidwoord.model.Field.DEZE_OF_DIT;
+import static nl.altindag.welklidwoord.model.Field.DE_OF_HET;
+import static nl.altindag.welklidwoord.model.Field.DIE_OF_DAT;
+import static nl.altindag.welklidwoord.model.Field.ELK_OF_ELKE;
+import static nl.altindag.welklidwoord.model.Field.ONS_OF_ONZE;
+import static org.apache.commons.lang3.StringUtils.EMPTY;
 
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
 
-import static nl.altindag.welklidwoord.model.AanwijzendVoornaamwoordDichtbij.DEZE;
-import static nl.altindag.welklidwoord.model.AanwijzendVoornaamwoordDichtbij.DIT;
-import static nl.altindag.welklidwoord.model.AanwijzendVoornaamwoordVer.DAT;
-import static nl.altindag.welklidwoord.model.AanwijzendVoornaamwoordVer.DIE;
-import static nl.altindag.welklidwoord.model.BezittelijkVoornaamwoord.ONS;
-import static nl.altindag.welklidwoord.model.BezittelijkVoornaamwoord.ONZE;
-import static nl.altindag.welklidwoord.model.Lidwoord.DE;
-import static nl.altindag.welklidwoord.model.OnbepaaldVoornaamwoord.ELK;
-import static nl.altindag.welklidwoord.model.OnbepaaldVoornaamwoord.ELKE;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-public interface LidwoordService {
+import javafx.application.Platform;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.scene.control.Alert;
+import nl.altindag.welklidwoord.model.Field;
 
-    CompletableFuture<Lidwoord> getLidwoord(String zelfstandigNaamwoord);
+@Service
+public class LidwoordService {
 
-    Map<Field, String> getFields(Lidwoord lidwoord, String zelfstandigNaamwoord);
+    private LidwoordOpvraagService service;
+    private Alert aboutScreen;
 
-    Map<Field, String> getContainer();
+    private SimpleStringProperty lidwoord = new SimpleStringProperty(DE_OF_HET.toString());
+    private SimpleStringProperty aanwijzendVoornaamwoordVer = new SimpleStringProperty(DIE_OF_DAT.toString());
+    private SimpleStringProperty aanwijzendVoornaamwoordDichtbij = new SimpleStringProperty(DEZE_OF_DIT.toString());
+    private SimpleStringProperty bezittelijkVoornaamwoordOns = new SimpleStringProperty(ONS_OF_ONZE.toString());
+    private SimpleStringProperty onbepaaldVoornaamwoord = new SimpleStringProperty(ELK_OF_ELKE.toString());
 
-    default AanwijzendVoornaamwoordVer getAanwijzendVoornaamwoordVer(Lidwoord lidwoord) {
-        return lidwoord == DE ? DIE : DAT;
+    @Autowired
+    public LidwoordService(LidwoordOpvraagService service) {
+        this.service = service;
+
+        Platform.runLater(() -> {
+            aboutScreen = new Alert(Alert.AlertType.INFORMATION);
+            aboutScreen.setTitle("Over Welk Lidwoord");
+            aboutScreen.setHeaderText("Over Welk Lidwoord");
+            aboutScreen.setContentText("App versie 1.0\nGemaakt door Hakan Altındağ");
+        });
     }
 
-    default AanwijzendVoornaamwoordDichtbij getAanwijzendVoornaamwoordDichtbij(Lidwoord lidwoord) {
-        return lidwoord == DE ? DEZE : DIT;
+    public Alert getAboutScreen() {
+        return aboutScreen;
     }
 
-    default BezittelijkVoornaamwoord getBezittelijkVoornaamWoord(Lidwoord lidwoord) {
-        return lidwoord == DE ? ONZE : ONS;
+    public void search(String zelfstandigNaamwoord) {
+        service.getLidwoord(zelfstandigNaamwoord)
+               .thenApply(lidwoord -> service.getFields(lidwoord, zelfstandigNaamwoord))
+               .exceptionally(exception -> this.getFieldsForError(exception.getCause().getMessage()))
+               .thenAccept(this::setAllFields);
     }
 
-    default OnbepaaldVoornaamwoord getOnbepaaldVoornaamwoord(Lidwoord lidwoord) {
-        return lidwoord == DE ? ELKE : ELK;
+    private void setAllFields(Map<Field, String> container) {
+        Platform.runLater(() -> {
+            lidwoord.set(container.get(DE_OF_HET));
+            aanwijzendVoornaamwoordVer.set(container.get(DIE_OF_DAT));
+            aanwijzendVoornaamwoordDichtbij.set(container.get(DEZE_OF_DIT));
+            bezittelijkVoornaamwoordOns.set(container.get(ONS_OF_ONZE));
+            onbepaaldVoornaamwoord.set(container.get(ELK_OF_ELKE));
+        });
+    }
+
+    private Map<Field, String> getFieldsForError(String message) {
+        Map<Field, String> container = service.getContainer();
+        container.replaceAll((key, value) -> EMPTY);
+        container.put(DEZE_OF_DIT, message);
+        return container;
+    }
+
+    public SimpleStringProperty lidwoordProperty() {
+        return lidwoord;
+    }
+
+    public SimpleStringProperty aanwijzendVoornaamwoordVerProperty() {
+        return aanwijzendVoornaamwoordVer;
+    }
+
+    public SimpleStringProperty aanwijzendVoornaamwoordDichtbijProperty() {
+        return aanwijzendVoornaamwoordDichtbij;
+    }
+
+    public SimpleStringProperty bezittelijkVoornaamwoordOnsProperty() {
+        return bezittelijkVoornaamwoordOns;
+    }
+
+    public SimpleStringProperty onbepaaldVoornaamwoordProperty() {
+        return onbepaaldVoornaamwoord;
     }
 }

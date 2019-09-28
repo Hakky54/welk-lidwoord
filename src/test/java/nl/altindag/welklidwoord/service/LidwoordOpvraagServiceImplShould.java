@@ -23,7 +23,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 import nl.altindag.welklidwoord.model.Field;
 
 @RunWith(MockitoJUnitRunner.class)
-public class LidwoordServiceImplShould {
+public class LidwoordOpvraagServiceImplShould {
 
     @Mock
     private VanDaleService vanDaleService;
@@ -32,7 +32,7 @@ public class LidwoordServiceImplShould {
     @Mock
     private WoordenService woordenService;
     @InjectMocks
-    private LidwoordServiceImpl victim;
+    private LidwoordOpvraagServiceImpl victim;
 
     @Test
     public void getLidwoord() {

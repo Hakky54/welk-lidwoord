@@ -51,7 +51,7 @@ public class WoordenServiceShould {
     @Test
     @SuppressWarnings("unchecked")
     public void throwExceptionWhenNoLidwoordIsFound() {
-        expectedEx.expectMessage("Couldn't find the word");
+        expectedEx.expectMessage("Ik kon het lidwoord niet vinden");
 
         var mockedRequest = mock(HttpRequest.class);
         var mockedResponse = (HttpResponse<String>) mock(HttpResponse.class);
