@@ -23,7 +23,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.control.Alert;
-import nl.altindag.welklidwoord.FXTestUtil;
+import nl.altindag.welklidwoord.FXTestUtils;
 import nl.altindag.welklidwoord.model.Lidwoord;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -41,7 +41,7 @@ public class LidwoordServiceShould {
 
     @Before
     public void setUp() throws InterruptedException {
-        FXTestUtil.waitForRunLater();
+        FXTestUtils.waitForRunLater();
     }
 
     @Test
@@ -66,7 +66,7 @@ public class LidwoordServiceShould {
                                    ONS_OF_ONZE, "onze fiets"));
 
         lidwoordService.search("fiets");
-        FXTestUtil.waitForRunLater();
+        FXTestUtils.waitForRunLater();
 
         assertThat(lidwoordService.lidwoordProperty().get()).isEqualTo("de fiets");
         assertThat(lidwoordService.aanwijzendVoornaamwoordVerProperty().get()).isEqualTo("die fiets");

@@ -28,9 +28,6 @@ public class App extends Application {
     private final Function<String, FXMLLoader> fxmlLoaderFunction = fxml -> new FXMLLoader(this.getClass().getResource(fxml));
 
     private Parent root;
-    private double xOffset = 0;
-    private double yOffset = 0;
-
     private Stage loadingStage;
 
     @Override
@@ -54,16 +51,6 @@ public class App extends Application {
         stage.setHeight(600);
         stage.setResizable(false);
         stage.setOnShowing(windowEvent -> loadingStage.close());
-
-        root.setOnMousePressed(event -> {
-            xOffset = event.getSceneX();
-            yOffset = event.getSceneY();
-        });
-
-        root.setOnMouseDragged(event -> {
-            stage.setX(event.getScreenX() - xOffset);
-            stage.setY(event.getScreenY() - yOffset);
-        });
 
         stage.show();
         FlatterFX.style();
