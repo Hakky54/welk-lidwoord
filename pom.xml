@@ -23,7 +23,7 @@
         <version.testfx>4.0.15-alpha</version.testfx>
         <version.openjfx-monocle>jdk-11+26</version.openjfx-monocle>
         <version.java>11</version.java>
-        <version.maven-compiler-plugin>3.8.0</version.maven-compiler-plugin>
+        <version.maven-compiler-plugin>3.8.1</version.maven-compiler-plugin>
         <version.maven-surefire-plugin>3.0.0-M3</version.maven-surefire-plugin>
         <version.exec-maven-plugin>1.2.1</version.exec-maven-plugin>
     </properties>
