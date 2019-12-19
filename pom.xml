@@ -13,7 +13,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <version.httpclient>4.5.10</version.httpclient>
         <version.commons-lang3>3.9</version.commons-lang3>
-        <version.jsoup>1.11.3</version.jsoup>
+        <version.jsoup>1.12.1</version.jsoup>
         <version.flatter>0.7</version.flatter>
         <version.javafx>13.0.1</version.javafx>
         <version.spring-boot>2.2.2.RELEASE</version.spring-boot>
