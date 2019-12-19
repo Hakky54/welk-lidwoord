@@ -17,7 +17,7 @@
         <version.flatter>0.7</version.flatter>
         <version.javafx>13.0.1</version.javafx>
         <version.spring-boot>2.2.2.RELEASE</version.spring-boot>
-        <version.mockito-core>2.24.5</version.mockito-core>
+        <version.mockito-core>3.2.4</version.mockito-core>
         <version.junit>4.12</version.junit>
         <version.assertj-core>3.14.0</version.assertj-core>
         <version.testfx>4.0.15-alpha</version.testfx>
