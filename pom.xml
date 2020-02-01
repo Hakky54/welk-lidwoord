@@ -19,7 +19,7 @@
         <version.spring-boot>2.2.2.RELEASE</version.spring-boot>
         <version.mockito-core>3.2.4</version.mockito-core>
         <version.junit>4.13</version.junit>
-        <version.assertj-core>3.14.0</version.assertj-core>
+        <version.assertj-core>3.15.0</version.assertj-core>
         <version.testfx>4.0.15-alpha</version.testfx>
         <version.openjfx-monocle>jdk-11+26</version.openjfx-monocle>
         <version.java>11</version.java>
