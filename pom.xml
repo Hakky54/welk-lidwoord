@@ -16,7 +16,7 @@
         <version.jsoup>1.12.1</version.jsoup>
         <version.flatter>0.7</version.flatter>
         <version.javafx>13.0.2</version.javafx>
-        <version.spring-boot>2.2.2.RELEASE</version.spring-boot>
+        <version.spring-boot>2.2.4.RELEASE</version.spring-boot>
         <version.mockito-core>3.2.4</version.mockito-core>
         <version.junit>4.13</version.junit>
         <version.assertj-core>3.15.0</version.assertj-core>
