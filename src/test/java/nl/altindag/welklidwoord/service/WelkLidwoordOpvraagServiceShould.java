@@ -1,22 +1,23 @@
 package nl.altindag.welklidwoord.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.util.concurrent.CompletableFuture;
-
+import ch.qos.logback.classic.Level;
+import nl.altindag.log.LogCaptor;
+import nl.altindag.welklidwoord.model.Lidwoord;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import nl.altindag.welklidwoord.model.Lidwoord;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.util.concurrent.CompletableFuture;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class WelkLidwoordOpvraagServiceShould {
@@ -29,6 +30,7 @@ public class WelkLidwoordOpvraagServiceShould {
     @Test
     @SuppressWarnings("unchecked")
     public void getLidwoord() {
+        var logCaptor = LogCaptor.forClass(WelkLidwoordService.class);
         var mockedRequest = mock(HttpRequest.class);
         var mockedResponse = (HttpResponse<String>) mock(HttpResponse.class);
         var completedFuture = CompletableFuture.completedFuture(mockedResponse);
@@ -41,6 +43,10 @@ public class WelkLidwoordOpvraagServiceShould {
 
         assertThat(response).isNotNull();
         assertThat(response.join()).isEqualTo(Lidwoord.DE);
+
+        assertThat(logCaptor.getLogs(Level.INFO))
+                .hasSize(1)
+                .contains("sending a request to Welklidwoord.nl to get more details for the search term: boom");
     }
 
 }

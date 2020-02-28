@@ -12,6 +12,7 @@ module nl.altindag.welklidwoord {
     requires org.jsoup;
     requires org.apache.commons.lang3;
     requires java.net.http;
+    requires org.apache.logging.log4j;
 
     opens nl.altindag.welklidwoord to spring.core;
     opens nl.altindag.welklidwoord.controller to javafx.fxml, spring.core;

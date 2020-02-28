@@ -22,6 +22,7 @@
         <version.assertj-core>3.15.0</version.assertj-core>
         <version.testfx>4.0.15-alpha</version.testfx>
         <version.openjfx-monocle>jdk-11+26</version.openjfx-monocle>
+        <version.logcaptor>1.0.1</version.logcaptor>
         <version.java>11</version.java>
         <version.maven-compiler-plugin>3.8.1</version.maven-compiler-plugin>
         <version.maven-surefire-plugin>3.0.0-M4</version.maven-surefire-plugin>
@@ -122,6 +123,12 @@
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-swing</artifactId>
             <version>${version.javafx}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.github.hakky54</groupId>
+            <artifactId>logcaptor</artifactId>
+            <version>${version.logcaptor}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
