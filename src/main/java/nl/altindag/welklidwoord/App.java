@@ -1,24 +1,24 @@
 package nl.altindag.welklidwoord;
 
-import static javafx.stage.StageStyle.UNDECORATED;
-
-import java.io.IOException;
-import java.net.http.HttpClient;
-import java.util.function.Function;
-
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.Bean;
-
 import com.guigarage.flatterfx.FlatterFX;
-
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import nl.altindag.sslcontext.SSLFactory;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.annotation.Bean;
+
+import java.io.IOException;
+import java.net.http.HttpClient;
+import java.security.SecureRandom;
+import java.util.function.Function;
+
+import static javafx.stage.StageStyle.UNDECORATED;
 
 @SpringBootApplication
 public class App extends Application {
@@ -67,8 +67,21 @@ public class App extends Application {
     }
 
     @Bean
-    public HttpClient httpClient() {
-        return HttpClient.newHttpClient();
+    public HttpClient httpClient(SSLFactory sslFactory) {
+        return HttpClient.newBuilder()
+                .sslContext(sslFactory.getSslContext())
+                .sslParameters(sslFactory.getSslContext().getDefaultSSLParameters())
+                .build();
+    }
+
+    @Bean
+    public SSLFactory sslFactory() {
+        return SSLFactory.builder()
+                .withDefaultJdkTrustStore()
+                .withProtocol("TLSv1.2")
+                .withSecureRandom(new SecureRandom())
+                .withHostnameVerifierEnabled(true)
+                .build();
     }
 
     private void displayLoadingScreen() {
