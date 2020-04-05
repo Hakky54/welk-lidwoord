@@ -78,9 +78,7 @@ public class App extends Application {
     public SSLFactory sslFactory() {
         return SSLFactory.builder()
                 .withDefaultJdkTrustStore()
-                .withProtocol("TLSv1.2")
                 .withSecureRandom(new SecureRandom())
-                .withHostnameVerifierEnabled(true)
                 .build();
     }
 
