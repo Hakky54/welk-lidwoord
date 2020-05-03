@@ -26,3 +26,6 @@ target/
 .idea/
 .idea_modules/
 *.iml
+
+# OS
+.DS_Store
