@@ -1,28 +1,23 @@
 package nl.altindag.welklidwoord.service;
 
-import static nl.altindag.welklidwoord.model.Field.DEZE_OF_DIT;
-import static nl.altindag.welklidwoord.model.Field.DE_OF_HET;
-import static nl.altindag.welklidwoord.model.Field.DIE_OF_DAT;
-import static nl.altindag.welklidwoord.model.Field.ELK_OF_ELKE;
-import static nl.altindag.welklidwoord.model.Field.ONS_OF_ONZE;
+import nl.altindag.welklidwoord.model.Field;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+
+import static nl.altindag.welklidwoord.model.Field.*;
 import static nl.altindag.welklidwoord.model.Lidwoord.DE;
 import static nl.altindag.welklidwoord.model.Lidwoord.HET;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
-import java.util.Map;
-import java.util.concurrent.CompletableFuture;
-
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
-
-import nl.altindag.welklidwoord.model.Field;
-
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class LidwoordOpvraagServiceImplShould {
 
     @Mock

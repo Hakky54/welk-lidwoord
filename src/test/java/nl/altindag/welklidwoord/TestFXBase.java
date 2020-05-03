@@ -1,21 +1,20 @@
 package nl.altindag.welklidwoord;
 
-import java.util.concurrent.TimeoutException;
-
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.testfx.api.FxToolkit;
-import org.testfx.framework.junit.ApplicationTest;
-
 import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.stage.Stage;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.testfx.api.FxToolkit;
+import org.testfx.framework.junit5.ApplicationTest;
+
+import java.util.concurrent.TimeoutException;
 
 public class TestFXBase extends ApplicationTest {
 
-    @BeforeClass
+    @BeforeAll
     public static void setUpHeadLessMode() {
         if (Boolean.parseBoolean(System.getenv("headless"))) {
             System.setProperty("testfx.robot", "glass");
@@ -26,7 +25,7 @@ public class TestFXBase extends ApplicationTest {
         }
     }
 
-    @Before
+    @BeforeEach
     public void setUpClass() throws Exception {
         ApplicationTest.launch(App.class);
     }
@@ -36,7 +35,7 @@ public class TestFXBase extends ApplicationTest {
         stage.show();
     }
 
-    @After
+    @AfterEach
     public void afterEachTest() throws TimeoutException {
         FxToolkit.hideStage();
         release(new KeyCode[]{});

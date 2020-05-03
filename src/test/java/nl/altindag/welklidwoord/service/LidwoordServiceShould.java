@@ -1,32 +1,27 @@
 package nl.altindag.welklidwoord.service;
 
-import static nl.altindag.welklidwoord.model.Field.DEZE_OF_DIT;
-import static nl.altindag.welklidwoord.model.Field.DE_OF_HET;
-import static nl.altindag.welklidwoord.model.Field.DIE_OF_DAT;
-import static nl.altindag.welklidwoord.model.Field.ELK_OF_ELKE;
-import static nl.altindag.welklidwoord.model.Field.ONS_OF_ONZE;
+import javafx.embed.swing.JFXPanel;
+import javafx.scene.control.Alert;
+import nl.altindag.welklidwoord.FXTestUtils;
+import nl.altindag.welklidwoord.model.Lidwoord;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+
+import static nl.altindag.welklidwoord.model.Field.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
-import java.util.Map;
-import java.util.concurrent.CompletableFuture;
-
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
-
-import javafx.embed.swing.JFXPanel;
-import javafx.scene.control.Alert;
-import nl.altindag.welklidwoord.FXTestUtils;
-import nl.altindag.welklidwoord.model.Lidwoord;
-
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class LidwoordServiceShould {
 
     @InjectMocks
@@ -34,13 +29,13 @@ public class LidwoordServiceShould {
     @Mock
     private LidwoordOpvraagService lidwoordOpvraagService;
 
-    @BeforeClass
-    public static void beforeClassSetUp() {
+    @BeforeAll
+    public static void createEmptyPanel() {
         JFXPanel jfxPanel = new JFXPanel();
     }
 
-    @Before
-    public void setUp() throws InterruptedException {
+    @BeforeEach
+    public void prepareTestUtils() throws InterruptedException {
         FXTestUtils.waitForRunLater();
     }
 

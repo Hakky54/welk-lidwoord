@@ -12,18 +12,18 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <version.httpclient>4.5.11</version.httpclient>
-        <version.sslcontext-kickstart>3.0.4</version.sslcontext-kickstart>
-        <version.commons-lang3>3.9</version.commons-lang3>
+        <version.sslcontext-kickstart>3.0.9</version.sslcontext-kickstart>
+        <version.commons-lang3>3.10</version.commons-lang3>
         <version.jsoup>1.13.1</version.jsoup>
         <version.flatter>0.7</version.flatter>
-        <version.javafx>13.0.2</version.javafx>
-        <version.spring-boot>2.2.5.RELEASE</version.spring-boot>
-        <version.mockito-core>3.3.0</version.mockito-core>
-        <version.junit>4.13</version.junit>
+        <version.javafx>14.0.1</version.javafx>
+        <version.spring-boot>2.2.6.RELEASE</version.spring-boot>
+        <version.mockito-core>3.3.3</version.mockito-core>
+        <version.junit>5.6.2</version.junit>
         <version.assertj-core>3.15.0</version.assertj-core>
-        <version.testfx>4.0.15-alpha</version.testfx>
-        <version.openjfx-monocle>jdk-11+26</version.openjfx-monocle>
-        <version.logcaptor>1.1.0</version.logcaptor>
+        <version.testfx>4.0.16-alpha</version.testfx>
+        <version.openjfx-monocle>jdk-12.0.1+2</version.openjfx-monocle>
+        <version.logcaptor>1.1.1</version.logcaptor>
         <version.java>11</version.java>
         <version.maven-compiler-plugin>3.8.1</version.maven-compiler-plugin>
         <version.maven-surefire-plugin>3.0.0-M4</version.maven-surefire-plugin>
@@ -31,29 +31,10 @@
     </properties>
 
     <dependencies>
-        <!--HTTP Client-->
-        <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpclient</artifactId>
-            <version>${version.httpclient}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>commons-logging</artifactId>
-                    <groupId>commons-logging</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
         <dependency>
             <groupId>io.github.hakky54</groupId>
             <artifactId>sslcontext-kickstart</artifactId>
             <version>${version.sslcontext-kickstart}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.google.code.findbugs</groupId>
-                    <artifactId>jsr305</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <dependency>
@@ -86,6 +67,8 @@
             <artifactId>spring-boot-starter</artifactId>
             <version>${version.spring-boot}</version>
         </dependency>
+
+        <!--    Test Libraries    -->
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
@@ -93,17 +76,32 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <version>${version.mockito-core}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
             <version>${version.junit}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${version.junit}</version>
+            <scope>test</scope>
+        </dependency>
+
         <dependency>
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
             <version>${version.assertj-core}</version>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>org.testfx</groupId>
             <artifactId>testfx-core</artifactId>
@@ -112,9 +110,8 @@
         </dependency>
         <dependency>
             <groupId>org.testfx</groupId>
-            <artifactId>testfx-junit</artifactId>
+            <artifactId>testfx-junit5</artifactId>
             <version>${version.testfx}</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.testfx</groupId>
@@ -138,6 +135,7 @@
             <version>${version.javafx}</version>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>io.github.hakky54</groupId>
             <artifactId>logcaptor</artifactId>

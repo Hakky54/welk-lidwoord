@@ -3,34 +3,30 @@ package nl.altindag.welklidwoord.service;
 import ch.qos.logback.classic.Level;
 import nl.altindag.log.LogCaptor;
 import nl.altindag.welklidwoord.model.Lidwoord;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.concurrent.CompletableFuture;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class WoordenServiceShould {
 
     @Mock
     private ClientHelper clientHelper;
     @InjectMocks
     private WoordenService victim;
-
-    @Rule
-    public ExpectedException expectedEx = ExpectedException.none();
 
     @Test
     @SuppressWarnings("unchecked")
@@ -57,8 +53,6 @@ public class WoordenServiceShould {
     @Test
     @SuppressWarnings("unchecked")
     public void throwExceptionWhenNoLidwoordIsFound() {
-        expectedEx.expectMessage("Ik kon het lidwoord niet vinden");
-
         var mockedRequest = mock(HttpRequest.class);
         var mockedResponse = (HttpResponse<String>) mock(HttpResponse.class);
         var completedFuture = CompletableFuture.completedFuture(mockedResponse);
@@ -67,7 +61,9 @@ public class WoordenServiceShould {
         when(clientHelper.getResponse(any(HttpRequest.class))).thenReturn(completedFuture);
         when(mockedResponse.body()).thenReturn("<html><head></head><body><h2 class=\"inline\"><font style=\"font-size:8pt\">jhgjhgkiuyiuyhj</font>boom</h2></body></html>");
 
-        victim.getLidwoord("boom").join();
+        assertThatThrownBy(() -> victim.getLidwoord("boom").join())
+                .isInstanceOf(RuntimeException.class)
+                .hasMessageContaining("Ik kon het lidwoord niet vinden");
     }
 
 }

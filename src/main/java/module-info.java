@@ -13,7 +13,7 @@ module nl.altindag.welklidwoord {
     requires org.apache.commons.lang3;
     requires java.net.http;
     requires org.apache.logging.log4j;
-    requires sslcontext.kickstart;
+    requires io.github.hakky54.sslcontext.kickstart;
 
     opens nl.altindag.welklidwoord to spring.core;
     opens nl.altindag.welklidwoord.controller to javafx.fxml, spring.core;
