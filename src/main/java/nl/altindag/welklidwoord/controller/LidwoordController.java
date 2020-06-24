@@ -1,11 +1,5 @@
 package nl.altindag.welklidwoord.controller;
 
-import static javafx.geometry.Pos.CENTER;
-import static org.apache.commons.lang3.StringUtils.SPACE;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,6 +7,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import nl.altindag.welklidwoord.service.LidwoordService;
+import org.springframework.stereotype.Controller;
+
+import static javafx.geometry.Pos.CENTER;
+import static org.apache.commons.lang3.StringUtils.SPACE;
 
 @Controller
 public class LidwoordController {
@@ -31,9 +29,8 @@ public class LidwoordController {
     private TextField searchField;
     @FXML
     private MenuItem closeMenuItem;
-    private LidwoordService lidwoordService;
+    private final LidwoordService lidwoordService;
 
-    @Autowired
     public LidwoordController(LidwoordService lidwoordService) {
         this.lidwoordService = lidwoordService;
     }

@@ -5,7 +5,6 @@ import nl.altindag.welklidwoord.model.Lidwoord;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jsoup.Jsoup;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.net.http.HttpResponse;
@@ -19,9 +18,8 @@ public class VanDaleService implements SearchService {
     private static final String URL = "https://www.vandale.nl/gratis-woordenboek/nederlands/betekenis/";
     private static final Pair<String, String> LIDWOORD_ELEMENT_ATTRIBUTE = new Pair<>("class", "fq");
 
-    private ClientHelper clientHelper;
+    private final ClientHelper clientHelper;
 
-    @Autowired
     public VanDaleService(ClientHelper clientHelper) {
         this.clientHelper = clientHelper;
     }

@@ -4,7 +4,6 @@ import nl.altindag.welklidwoord.model.Lidwoord;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jsoup.Jsoup;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.net.http.HttpResponse;
@@ -20,9 +19,8 @@ public class WoordenService implements SearchService {
     private static final String LIDWOORD_ELEMENT_ATTRIBUTE_KEY = "inline";
     private static final Pattern PATTERN = Pattern.compile(LIDWOORD);
 
-    private ClientHelper clientHelper;
+    private final ClientHelper clientHelper;
 
-    @Autowired
     public WoordenService(ClientHelper clientHelper) {
         this.clientHelper = clientHelper;
     }

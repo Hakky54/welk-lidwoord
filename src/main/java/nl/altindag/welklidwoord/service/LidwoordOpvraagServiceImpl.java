@@ -1,44 +1,31 @@
 package nl.altindag.welklidwoord.service;
 
-import static nl.altindag.welklidwoord.model.Field.DEZE_OF_DIT;
-import static nl.altindag.welklidwoord.model.Field.DE_OF_HET;
-import static nl.altindag.welklidwoord.model.Field.DIE_OF_DAT;
-import static nl.altindag.welklidwoord.model.Field.ELK_OF_ELKE;
-import static nl.altindag.welklidwoord.model.Field.ONS_OF_ONZE;
-import static org.apache.commons.lang3.StringUtils.EMPTY;
+import nl.altindag.welklidwoord.model.Field;
+import nl.altindag.welklidwoord.model.Lidwoord;
+import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import nl.altindag.welklidwoord.model.Field;
-import nl.altindag.welklidwoord.model.Lidwoord;
+import static nl.altindag.welklidwoord.model.Field.*;
+import static org.apache.commons.lang3.StringUtils.EMPTY;
 
 @Service
 public class LidwoordOpvraagServiceImpl implements LidwoordOpvraagService {
 
-    private VanDaleService vanDaleService;
-    private WelkLidwoordService welkLidwoordService;
-    private WoordenService woordenService;
-    private Map<Field, String> container;
+    private final VanDaleService vanDaleService;
+    private final WelkLidwoordService welkLidwoordService;
+    private final WoordenService woordenService;
+    private final Map<Field, String> container = new EnumMap<>(Field.class);
 
-    @Autowired
     public LidwoordOpvraagServiceImpl(VanDaleService vanDaleService, WelkLidwoordService welkLidwoordService, WoordenService woordenService) {
         this.vanDaleService = vanDaleService;
         this.welkLidwoordService = welkLidwoordService;
         this.woordenService = woordenService;
-        InitializeContainer();
-    }
-
-    private void InitializeContainer() {
-        container = new HashMap<>();
-        Stream.of(Field.values())
-                .forEach(field -> container.put(field, EMPTY));
+        Stream.of(Field.values()).forEach(field -> container.put(field, EMPTY));
     }
 
     @Override

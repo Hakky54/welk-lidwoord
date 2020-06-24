@@ -4,7 +4,6 @@ import nl.altindag.welklidwoord.model.Lidwoord;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jsoup.Jsoup;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.net.http.HttpResponse;
@@ -18,9 +17,8 @@ public class WelkLidwoordService implements SearchService {
     private static final String URL = "https://www.welklidwoord.nl/";
     private static final String LIDWOORD_ELEMENT_ATTRIBUTE_KEY = "span";
 
-    private ClientHelper clientHelper;
+    private final ClientHelper clientHelper;
 
-    @Autowired
     public WelkLidwoordService(ClientHelper clientHelper) {
         this.clientHelper = clientHelper;
     }

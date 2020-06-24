@@ -1,33 +1,28 @@
 package nl.altindag.welklidwoord.service;
 
-import static nl.altindag.welklidwoord.model.Field.DEZE_OF_DIT;
-import static nl.altindag.welklidwoord.model.Field.DE_OF_HET;
-import static nl.altindag.welklidwoord.model.Field.DIE_OF_DAT;
-import static nl.altindag.welklidwoord.model.Field.ELK_OF_ELKE;
-import static nl.altindag.welklidwoord.model.Field.ONS_OF_ONZE;
-import static org.apache.commons.lang3.StringUtils.EMPTY;
-
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.control.Alert;
 import nl.altindag.welklidwoord.model.Field;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.Map;
+
+import static nl.altindag.welklidwoord.model.Field.*;
+import static org.apache.commons.lang3.StringUtils.EMPTY;
 
 @Service
 public class LidwoordService {
 
-    private LidwoordOpvraagService service;
+    private final LidwoordOpvraagService service;
     private Alert aboutScreen;
 
-    private SimpleStringProperty lidwoord = new SimpleStringProperty(DE_OF_HET.toString());
-    private SimpleStringProperty aanwijzendVoornaamwoordVer = new SimpleStringProperty(DIE_OF_DAT.toString());
-    private SimpleStringProperty aanwijzendVoornaamwoordDichtbij = new SimpleStringProperty(DEZE_OF_DIT.toString());
-    private SimpleStringProperty bezittelijkVoornaamwoordOns = new SimpleStringProperty(ONS_OF_ONZE.toString());
-    private SimpleStringProperty onbepaaldVoornaamwoord = new SimpleStringProperty(ELK_OF_ELKE.toString());
+    private final SimpleStringProperty lidwoord = new SimpleStringProperty(DE_OF_HET.toString());
+    private final SimpleStringProperty aanwijzendVoornaamwoordVer = new SimpleStringProperty(DIE_OF_DAT.toString());
+    private final SimpleStringProperty aanwijzendVoornaamwoordDichtbij = new SimpleStringProperty(DEZE_OF_DIT.toString());
+    private final SimpleStringProperty bezittelijkVoornaamwoordOns = new SimpleStringProperty(ONS_OF_ONZE.toString());
+    private final SimpleStringProperty onbepaaldVoornaamwoord = new SimpleStringProperty(ELK_OF_ELKE.toString());
 
     @Autowired
     public LidwoordService(LidwoordOpvraagService service) {

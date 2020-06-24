@@ -1,5 +1,7 @@
 package nl.altindag.welklidwoord.service;
 
+import org.springframework.stereotype.Service;
+
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -8,15 +10,11 @@ import java.net.http.HttpResponse.BodyHandlers;
 import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 @Service
 public class ClientHelper {
 
-    private HttpClient client;
+    private final HttpClient client;
 
-    @Autowired
     public ClientHelper(HttpClient client) {
         this.client = client;
     }

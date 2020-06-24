@@ -1,6 +1,5 @@
 package nl.altindag.welklidwoord.service;
 
-import ch.qos.logback.classic.Level;
 import nl.altindag.log.LogCaptor;
 import nl.altindag.welklidwoord.model.Lidwoord;
 import org.junit.jupiter.api.Test;
@@ -44,7 +43,7 @@ public class VanDaleServiceShould {
         assertThat(response).isNotNull();
         assertThat(response.join()).isEqualTo(Lidwoord.DE);
 
-        assertThat(logCaptor.getLogs(Level.INFO))
+        assertThat(logCaptor.getInfoLogs())
                 .hasSize(1)
                 .contains("sending a request to VanDale.nl to get more details for the search term: boom");
     }
