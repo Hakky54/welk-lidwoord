@@ -77,7 +77,7 @@ public class App extends Application {
     @Bean
     public SSLFactory sslFactory() {
         return SSLFactory.builder()
-                .withDefaultJdkTrustStore()
+                .withDefaultTrustMaterial()
                 .withSecureRandom(new SecureRandom())
                 .build();
     }
