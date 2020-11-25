@@ -16,11 +16,6 @@ jobs:
     - name: Build with Maven
       run: mvn clean install
 
-    - uses: actions/upload-artifact@master
-      with:
-        name: welk-lidwoord-for-windows
-        path: target/Welk-Lidwoord.jar
-
   build-on-mac:
     runs-on: macOS-latest
     steps:
@@ -33,8 +28,3 @@ jobs:
 
       - name: Build with Maven
         run: mvn clean install
-
-      - uses: actions/upload-artifact@master
-        with:
-          name: welk-lidwoord-for-mac
-          path: target/Welk-Lidwoord.jar
