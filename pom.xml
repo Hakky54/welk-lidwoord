@@ -14,7 +14,7 @@
         <version.httpclient>4.5.11</version.httpclient>
         <version.sslcontext-kickstart>5.2.3</version.sslcontext-kickstart>
         <version.commons-lang3>3.11</version.commons-lang3>
-        <version.jsoup>1.13.1</version.jsoup>
+        <version.jsoup>1.14.2</version.jsoup>
         <version.flatter>0.7</version.flatter>
         <version.javafx>14.0.1</version.javafx>
         <version.spring-boot>2.3.4.RELEASE</version.spring-boot>
