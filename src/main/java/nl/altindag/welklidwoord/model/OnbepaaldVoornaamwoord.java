@@ -5,15 +5,15 @@ public enum OnbepaaldVoornaamwoord {
     ELKE("elke"),
     ELK("elk");
 
-    private String value;
+    private final String value;
 
     OnbepaaldVoornaamwoord(String value) {
         this.value = value;
     }
 
-
     @Override
     public String toString() {
         return value;
     }
+
 }

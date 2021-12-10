@@ -11,7 +11,6 @@ import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
 
 import static nl.altindag.welklidwoord.model.Field.*;
-import static org.apache.commons.lang3.StringUtils.EMPTY;
 
 @Service
 public class LidwoordOpvraagServiceImpl implements LidwoordOpvraagService {
@@ -25,7 +24,7 @@ public class LidwoordOpvraagServiceImpl implements LidwoordOpvraagService {
         this.vanDaleService = vanDaleService;
         this.welkLidwoordService = welkLidwoordService;
         this.woordenService = woordenService;
-        Stream.of(Field.values()).forEach(field -> container.put(field, EMPTY));
+        Stream.of(Field.values()).forEach(field -> container.put(field, ""));
     }
 
     @Override

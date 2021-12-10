@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import java.util.Map;
 
 import static nl.altindag.welklidwoord.model.Field.*;
-import static org.apache.commons.lang3.StringUtils.EMPTY;
 
 @Service
 public class LidwoordService {
@@ -59,7 +58,7 @@ public class LidwoordService {
 
     private Map<Field, String> getFieldsForError(String message) {
         Map<Field, String> container = service.getContainer();
-        container.replaceAll((key, value) -> EMPTY);
+        container.replaceAll((key, value) -> "");
         container.put(DEZE_OF_DIT, message);
         return container;
     }

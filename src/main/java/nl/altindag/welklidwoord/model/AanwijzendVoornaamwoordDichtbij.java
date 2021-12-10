@@ -5,15 +5,15 @@ public enum AanwijzendVoornaamwoordDichtbij {
     DEZE("deze"),
     DIT("dit");
 
-    private String value;
+    private final String value;
 
     AanwijzendVoornaamwoordDichtbij(String value) {
         this.value = value;
     }
 
-
     @Override
     public String toString() {
         return value;
     }
+
 }

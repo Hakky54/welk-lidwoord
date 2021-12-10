@@ -2,7 +2,7 @@
 Een app die je helpt met kiezen van het juiste lidwoord
 
 ### Benodigdheden:
-- Java 11
+- Java 17
 - Maven
 
 ### Bouwen & Opstarten

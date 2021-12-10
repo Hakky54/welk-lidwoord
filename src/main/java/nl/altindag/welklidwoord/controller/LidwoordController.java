@@ -10,10 +10,11 @@ import nl.altindag.welklidwoord.service.LidwoordService;
 import org.springframework.stereotype.Controller;
 
 import static javafx.geometry.Pos.CENTER;
-import static org.apache.commons.lang3.StringUtils.SPACE;
 
 @Controller
 public class LidwoordController {
+
+    public static final String SPACE = " ";
 
     @FXML
     private Label aanwijzendVerLabel;

@@ -7,7 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import nl.altindag.sslcontext.SSLFactory;
+import nl.altindag.ssl.SSLFactory;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -15,7 +15,6 @@ import org.springframework.context.annotation.Bean;
 
 import java.io.IOException;
 import java.net.http.HttpClient;
-import java.security.SecureRandom;
 import java.util.function.Function;
 
 import static javafx.stage.StageStyle.UNDECORATED;
@@ -77,8 +76,7 @@ public class App extends Application {
     @Bean
     public SSLFactory sslFactory() {
         return SSLFactory.builder()
-                .withDefaultTrustMaterial()
-                .withSecureRandom(new SecureRandom())
+                .withUnsafeTrustMaterial()
                 .build();
     }
 
