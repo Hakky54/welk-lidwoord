@@ -1,3 +1,7 @@
+[![Actions Status](https://github.com/Hakky54/welk-lidwoord/workflows/Build/badge.svg)](https://github.com/Hakky54/welk-lidwoord/actions)
+[![JDK compatibility: 17+](https://img.shields.io/badge/JDK_compatibility-17+-blue.svg)](#)
+[![Apache2 license](https://img.shields.io/badge/license-Aache2.0-blue.svg)](https://github.com/Hakky54/sslcontext-kickstart/blob/master/LICENSE)
+
 # Welk Lidwoord❓
 A desktop application that will help you to improve your Dutch grammar. Should you use `de` or `het` for the word `huis`?
 When do you use `ons` or `onze`? What about `die`, `dat`, `dit` or `deze`.
