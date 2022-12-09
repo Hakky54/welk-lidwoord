@@ -9,6 +9,26 @@
     <version>1.0-SNAPSHOT</version>
     <name>welk-lidwoord</name>
 
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <id>Hakky54</id>
+            <name>Hakan Altindag</name>
+            <organization>Thunderberry</organization>
+            <url>https://github.com/Hakky54</url>
+            <roles>
+                <role>Maintainer</role>
+            </roles>
+        </developer>
+    </developers>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <version.sslcontext-kickstart>7.1.0</version.sslcontext-kickstart>
@@ -201,6 +221,7 @@
                 <includes>
                     <include>mainscreen.fxml</include>
                     <include>loadingscreen.fxml</include>
+                    <include>banner.txt</include>
                 </includes>
             </resource>
         </resources>
