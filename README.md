@@ -14,7 +14,7 @@ Don't worry, this little app will quicly help you out whenever you need some hel
 - Java 17
 - Maven
 
-### Building executable
+### How to start
 Create and run an executable jar:
 1. `mvn clean verify`
 2. `java -jar target/Welk-Lidwoord.jar`
