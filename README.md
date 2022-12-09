@@ -21,4 +21,4 @@ Create and run an executable jar:
 
 Or start it with the exec plugin
 1. `mvn clean verify`
-2. `mvn exec:jara`
+2. `mvn exec:java`
