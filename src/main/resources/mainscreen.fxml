@@ -44,7 +44,7 @@
        </MenuBar>
    </top>
     <bottom>
-        <TextField fx:id="searchField" onAction="#onEnter" BorderPane.alignment="CENTER">
+        <TextField fx:id="searchField" promptText="Klik hier om te zoeken" focusTraversable="false" onAction="#onEnter" BorderPane.alignment="CENTER">
             <BorderPane.margin>
                 <Insets bottom="40.0" left="20.0" right="20.0" top="10.0"/>
             </BorderPane.margin>
